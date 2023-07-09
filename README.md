@@ -2,7 +2,7 @@
 Python CLI and Tkinter GUI programs using the Python [ephem](https://pypi.org/project/ephem/) library to calculate moon phases.
 
 ## Version History
-- (07-08-23) V4 Initial commit of CLI and GUI
+- (07-08-23) V1 Initial commit of CLI and GUI
 
 
 ### License
