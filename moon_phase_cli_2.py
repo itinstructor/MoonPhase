@@ -1,3 +1,10 @@
+"""
+    Name: moon_phase_cli_2.py
+    Author: William A Loring
+    Created: 07-08-23
+    Purpose: Python moon phase program using ephem library
+"""
+
 import os
 # pip install epmem
 import ephem
