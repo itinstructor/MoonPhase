@@ -14,6 +14,9 @@ import moon_class
 
 class MoonPhase:
     def __init__(self) -> None:
+        print(" +------------------------------------------+")
+        print(" |              Moon Phase App              |")
+        print(" +------------------------------------------+")
         # Create moonclass object to access methods
         self.moon_class = moon_class.MoonClass()
 
@@ -44,8 +47,6 @@ class MoonPhase:
         else:
             formatted_time = local_time.strftime(" %-I:%M %p %-m/%-d/%Y")
 
-        print(f" {formatted_time}")
-
         # Create moon object from local time
         moon = ephem.Moon(local_time)
 
@@ -54,16 +55,19 @@ class MoonPhase:
 
         # Distance from earth to the moon
         earth_to_moon = moon.earth_distance
-        print(f"    AU: {earth_to_moon}")
+        # Convert from AU to KM and Miles
         km_to_moon = 149597870.7 * earth_to_moon
-        print(f"    KM: {km_to_moon:,.0f}")
         miles_to_moon = earth_to_moon * 92955807.273
-        print(f" Miles: {miles_to_moon:,.0f}")
 
         # Surface illumination of the moon from 0.0 to 1.0
         phase = moon.moon_phase
         phase_percent = moon.phase
         moon_description = self.moon_class.phase_description(phase)
+
+        print(f" {formatted_time}")
+        print(f"    AU: {earth_to_moon}")
+        print(f"    KM: {km_to_moon:,.0f}")
+        print(f" Miles: {miles_to_moon:,.0f}")
 
         print(f" Illumination: {phase_percent:.0f}%")
         print(f" {moon_description}")
