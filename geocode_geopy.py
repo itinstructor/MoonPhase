@@ -24,8 +24,7 @@ def main():
 
 
 def geocode(city, state, country):
-    """
-        Get lat, lng, and address using geopy
+    """Get lat, lng, and address using geopy
         from city, state, and country
     """
     try:
@@ -62,9 +61,7 @@ def geocode(city, state, country):
 
 
 def reverse_geocode(lat, lon):
-    """
-        Reverse geocode from lat, lon using geopy
-    """
+    """Reverse geocode from lat, lon using geopy"""
     try:
         # Create geolocator object
         geolocator = Nominatim(user_agent="location_practice")
