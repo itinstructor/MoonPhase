@@ -11,13 +11,12 @@ import os
 
 class MoonClass:
 
-    def __init__(self, lat, lng) -> None:
+    def __init__(self, lat='41.8666', lng='-103.6672') -> None:
         # Initialize properties
         self._lat = lat
         self._lng = lng
-        self._phase = ""
-        self._formatted_time = ""
 
+        # Create observer object, the location we are observing from
         observer = ephem.Observer()
         observer.lat = self._lat
         observer.long = self._lng
@@ -36,18 +35,21 @@ class MoonClass:
         # Distance from earth to the moon
         self._earth_to_moon = moon.earth_distance
 
-        # Surface illumination of the moon from 0.0 to 1.0
-        self._phase = moon.moon_phase
         # Surface illumination of the moon in percent
         self._phase_percent = moon.phase
 
+        # Surface illumination of the moon from 0.0 to 1.0
+        self._phase = moon.moon_phase
+        self.get_phase_description()
+
+# ----------------------- MOON CLASS PROPERTIES ---------------------------#
     @property
     def phase_percent(self):
         return self._phase_percent
 
     @property
-    def phase(self):
-        return self._phase
+    def phase_description(self):
+        return self._phase_description
 
     @property
     def earth_to_moon(self):
@@ -78,7 +80,7 @@ class MoonClass:
         return self._formatted_time
 
 # ----------------------- MOON PHASE DESCRIPTION --------------------------#
-    def phase_description(self):
+    def get_phase_description(self):
         """ Convert moon phase to description
         from 0 (the new moon) to 0.5 (the full moon)
         and back to 1 (the next new moon)
@@ -100,21 +102,21 @@ class MoonClass:
             "Last Quarter (decreasing from full)",
             "Waning Crescent (decreasing from full)"
         ]
-        if (self.phase <= 0.02):
-            self._phase = self.description[0]
-        elif (self.phase <= 0.23):
-            self._phase = self.description[1]
-        elif (self.phase <= 0.2839):
-            self._phase = self.description[2]
-        elif (self.phase <= .4661):
-            self._phase = self.description[3]
-        elif (self.phase <= 0.5339):
-            self._phase = self.description[4]
-        elif (self.phase <= 0.7161):
-            self._phase = self.description[5]
-        elif (self.phase <= 0.7839):
-            self._phase = self.description[6]
-        elif (self.phase <= 1.0):
-            self._phase = self.description[7]
+        if (self._phase <= 0.02):
+            self._phase_description = description[0]
+        elif (self._phase <= 0.23):
+            self._phase_description = description[1]
+        elif (self._phase <= 0.2839):
+            self._phase_description = description[2]
+        elif (self._phase <= .4661):
+            self._phase_description = description[3]
+        elif (self._phase <= 0.5339):
+            self._phase_description = description[4]
+        elif (self._phase <= 0.7161):
+            self._phase_description = description[5]
+        elif (self._phase <= 0.7839):
+            self._phase_description = description[6]
+        elif (self._phase <= 1.0):
+            self._phase_description = description[7]
         else:
-            return "Invalid phase information."
+            self._phase_description = "Invalid phase information."
