@@ -14,35 +14,17 @@ import ephem
 class MoonPhase:
     def __init__(self) -> None:
         # Create the main window
-        root = tk.Tk()
-        root.title("Moon Phase Calculator")
-        root.geometry("250x300+100+100")
-        root.iconbitmap("moon.ico")
-
-        self.cal = Calendar(
-            root,
-            selectmode="day",
-            date_pattern="yyyy/mm/dd",
-            firstweekday="sunday"
-        )
-        self.cal.pack(pady=10)
-
-        self.calculate_button = ttk.Button(
-            root, text="Calculate Moon Phase", command=self.show_moon_phase
-        )
-        self.calculate_button.pack()
-
-        self.moon_description_label = ttk.Label(root)
-        self.moon_description_label.pack()
-        self.moon_phase_label = ttk.Label(root)
-        self.moon_phase_label.pack()
-
+        self.root = tk.Tk()
+        self.root.title("Moon Phase Calculator")
+        self.root.geometry("290x310+100+100")
+        self.root.iconbitmap("moon.ico")
+        self.create_widgets()
         # Run the main loop
-        root.mainloop()
+        self.root.mainloop()
 
 # ----------------------- CALCULATE MOON PHASE ----------------------------#
     def calculate_moon_phase(self, date):
-        # Use the ephem library to calculate the moon phase for the given date
+        # Use ephem library to calculate moon phase for the given date
         moon = ephem.Moon(date)
         # 0-1.0 range of illumination
         moon_phase = moon.moon_phase
@@ -66,8 +48,8 @@ class MoonPhase:
             if key[0] <= phase < key[1]:
                 return value
 
-# ----------------------- SHOE MOON PHASE ---------------------------------#
-    def show_moon_phase(self):
+# ----------------------- DISPLAY MOON PHASE ------------------------------#
+    def display_moon_phase(self):
         date = self.cal.selection_get().strftime('%Y/%m/%d')
         try:
             moon_phase = self.calculate_moon_phase(date)
@@ -79,5 +61,29 @@ class MoonPhase:
         except Exception as e:
             self.moon_phase_label.config(text=f"Invalid Date: {e}")
 
+# ----------------------- CREATE WIDGETS ----------------------------------#
+    def create_widgets(self):
+        self.cal = Calendar(
+            self.root,
+            selectmode="day",
+            date_pattern="yyyy/mm/dd",
+            firstweekday="sunday"
+        )
+        self.btn_calculate = ttk.Button(
+            self.root, text="Calculate Moon Phase",
+            command=self.display_moon_phase
+        )
+        self.moon_description_label = ttk.Label(self.root)
+        self.moon_phase_label = ttk.Label(self.root)
 
+        self.cal.grid(row=0, column=0)
+        self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
+        self.moon_description_label.grid(row=2, column=0, sticky=tk.W)
+        self.moon_phase_label.grid(row=3, column=0, sticky=tk.W)
+
+        for widget in self.root.winfo_children():
+            widget.grid_configure(padx=15, pady=4, ipadx=2, ipady=2)
+
+
+# Create program object to start program
 moon_phase = MoonPhase()
