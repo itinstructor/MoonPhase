@@ -16,7 +16,7 @@ class MoonPhase:
         # Create the main window
         self.root = tk.Tk()
         self.root.title("Moon Phase Calculator")
-        self.root.geometry("290x310+100+100")
+        self.root.geometry("+100+100")
         self.root.iconbitmap("moon.ico")
         self.create_widgets()
         # Run the main loop
@@ -63,26 +63,47 @@ class MoonPhase:
 
 # ----------------------- CREATE WIDGETS ----------------------------------#
     def create_widgets(self):
-        self.cal = Calendar(
+        """Create frames"""
+        self._entry_frame = tk.LabelFrame(
             self.root,
+            text="Choose Date",
+            relief=tk.GROOVE)
+        self._main_frame = tk.LabelFrame(
+            self.root,
+            text="Calculate Moon Phase",
+            relief=tk.GROOVE)
+
+        self.cal = Calendar(
+            self._entry_frame,
             selectmode="day",
             date_pattern="yyyy/mm/dd",
             firstweekday="sunday"
         )
         self.btn_calculate = ttk.Button(
-            self.root, text="Calculate Moon Phase",
+            self._main_frame, text="Calculate Moon Phase",
             command=self.display_moon_phase
         )
-        self.moon_description_label = ttk.Label(self.root)
-        self.moon_phase_label = ttk.Label(self.root)
+        self.moon_description_label = ttk.Label(self._main_frame)
+        self.moon_phase_label = ttk.Label(self._main_frame)
+        # Fill the frame to the width of the window
+        self._entry_frame.pack(fill=tk.X)
+        self._main_frame.pack(fill=tk.X)
+        # Keep the frame size regardless of the widget sizes
+        self._entry_frame.pack_propagate(False)
+        self._main_frame.pack_propagate(False)
 
         self.cal.grid(row=0, column=0)
         self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
         self.moon_description_label.grid(row=2, column=0, sticky=tk.W)
         self.moon_phase_label.grid(row=3, column=0, sticky=tk.W)
 
-        for widget in self.root.winfo_children():
-            widget.grid_configure(padx=15, pady=4, ipadx=2, ipady=2)
+        # Set padding between frame and window
+        self._entry_frame.pack_configure(padx=10)
+        self._main_frame.pack_configure(padx=10, pady=(10))
+        for child in self._entry_frame.winfo_children():
+            child.grid_configure(padx=5, pady=3, ipadx=1, ipady=1)
+        for child in self._main_frame.winfo_children():
+            child.grid_configure(padx=5, pady=3, ipadx=1, ipady=1)
 
 
 # Create program object to start program
