@@ -4,6 +4,8 @@ Python CLI and Tkinter GUI programs using the Python [ephem](https://pypi.org/pr
 
 Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to convert the Python .py program to a Windows exe using GCC.
 
+Neither program works quite right. Work in progress.
+
 ## Version History
 
 - (07-10-23) V2 Refactor to OOP. Move all ephem moon logic into moon_class.py
