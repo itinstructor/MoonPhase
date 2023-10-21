@@ -17,9 +17,9 @@ class MoonClass:
         self._lng = lng
 
         # Create observer object, the location we are observing from
-        observer = ephem.Observer()
-        observer.lat = self._lat
-        observer.long = self._lng
+        self.observer = ephem.Observer()
+        self.observer.lat = self._lat
+        self.observer.long = self._lng
 
         # Get current date and time
         date = ephem.now()
@@ -30,7 +30,7 @@ class MoonClass:
         moon = ephem.Moon(self.local_time)
 
         # Calculate moon information based on observer information
-        moon.compute(observer)
+        moon.compute(self.observer)
 
         # Distance from earth to the moon
         self._earth_to_moon = moon.earth_distance
@@ -102,21 +102,42 @@ class MoonClass:
             "Last Quarter (decreasing from full)",
             "Waning Crescent (decreasing from full)"
         ]
-        if (self._phase <= 0.02):
-            self._phase_description = description[0]
-        elif (self._phase <= 0.23):
-            self._phase_description = description[1]
-        elif (self._phase <= 0.2839):
-            self._phase_description = description[2]
-        elif (self._phase <= .4661):
-            self._phase_description = description[3]
-        elif (self._phase <= 0.5339):
+        # Get the current date in UTC
+        target_date_utc = self.observer.date
+        # Convert UTC date to local date
+        target_date_local = ephem.localtime(target_date_utc).date()
+
+        # Calculate dates for various moon phases
+        next_full = ephem.localtime(
+            ephem.next_full_moon(target_date_utc)).date()
+        next_new = ephem.localtime(ephem.next_new_moon(target_date_utc)).date()
+        next_last_quarter = ephem.localtime(
+            ephem.next_last_quarter_moon(target_date_utc)).date()
+        next_first_quarter = ephem.localtime(
+            ephem.next_first_quarter_moon(target_date_utc)).date()
+        previous_full = ephem.localtime(
+            ephem.previous_full_moon(target_date_utc)).date()
+        previous_new = ephem.localtime(
+            ephem.previous_new_moon(target_date_utc)).date()
+        previous_last_quarter = ephem.localtime(
+            ephem.previous_last_quarter_moon(target_date_utc)).date()
+        previous_first_quarter = ephem.localtime(
+            ephem.previous_first_quarter_moon(target_date_utc)).date()
+
+        # Determine the moon phase based on the dates
+        if target_date_local in (next_full, previous_full):
             self._phase_description = description[4]
-        elif (self._phase <= 0.7161):
-            self._phase_description = description[5]
-        elif (self._phase <= 0.7839):
+        elif target_date_local in (next_new, previous_new):
+            self._phase_description = description[0]
+        elif target_date_local in (next_first_quarter, previous_first_quarter):
+            self._phase_description = description[2]
+        elif target_date_local in (next_last_quarter, previous_last_quarter):
             self._phase_description = description[6]
-        elif (self._phase <= 1.0):
+        elif previous_new < next_first_quarter < next_full < next_last_quarter < next_new:
+            self._phase_description = description[1]
+        elif previous_first_quarter < next_full < next_last_quarter < next_new < next_first_quarter:
+            self._phase_description = description[3]
+        elif previous_full < next_last_quarter < next_new < next_first_quarter < next_full:
+            self._phase_description = description[5]
+        elif previous_last_quarter < next_new < next_first_quarter < next_full < next_last_quarter:
             self._phase_description = description[7]
-        else:
-            self._phase_description = "Invalid phase information."
