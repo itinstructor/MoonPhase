@@ -28,9 +28,11 @@ class MoonPhase:
 
         # Create moonclass object to access methods and properties
         self.mc = moon_class.MoonClass(self.lat, self.lng)
+
+        # Display moon information
         print("--------------------------------------------------------------")
         print(f" {self.address}")
-        print(f"{self.mc.formatted_time}")
+        print(f" {self.mc.formatted_time}")
         print(" Distance from Earth to Moon")
         print(f"    AU: {self.mc.earth_to_moon}")
         print(f"    KM: {self.mc.km_to_moon:,.0f}")

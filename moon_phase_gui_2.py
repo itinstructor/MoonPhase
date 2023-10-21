@@ -9,6 +9,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkcalendar import Calendar
 import ephem
+import moon_class
 
 
 class MoonPhase:
@@ -19,47 +20,47 @@ class MoonPhase:
         self.root.geometry("+100+100")
         self.root.iconbitmap("moon.ico")
         self.create_widgets()
+        # Hardcode lat and lng to Scottsbluff, NE
+        self.lat = '41.8666'
+        self.lng = '-103.6672'
+        # Create moonclass object to access methods and properties
+        self.mc = moon_class.MoonClass(self.lat, self.lng)
         # Run the main loop
         self.root.mainloop()
 
-# ----------------------- CALCULATE MOON PHASE ----------------------------#
-    def calculate_moon_phase(self, date):
-        # Use ephem library to calculate moon phase for the given date
-        moon = ephem.Moon(date)
-        # 0-1.0 range of illumination
-        moon_phase = moon.moon_phase
-        return moon_phase
-
-# ----------------------- GET MOON PHASE DESCRIPTION ----------------------#
-    def get_moon_phase_description(self, phase):
-        # Determine the moon phase description based on the phase value
-        phases = {
-            (0, 0.02): "New Moon (totally dark)",
-            (0.02, 0.23): "Waxing Crescent (increasing to full)",
-            (0.23, 0.27): "First Quarter (increasing to full)",
-            (0.27, 0.48): "Waxing Gibbous (increasing to full)",
-            (0.48, 0.52): "Full Moon",
-            (0.52, 0.73): "Waning Gibbous (decreasing from full)",
-            (0.73, 0.77): "Last Quarter (decreasing from full)",
-            (0.77, 0.98): "Waning Crescent (decreasing from full)",
-            (0.98, 1.0): "New Moon (totally dark)",
-        }
-        for key, value in phases.items():
-            if key[0] <= phase < key[1]:
-                return value
-
 # ----------------------- DISPLAY MOON PHASE ------------------------------#
     def display_moon_phase(self):
+        """
+        Updates the moon phase information displayed in the GUI based on the selected date.
+
+        Inputs:
+        - self: The instance of the MoonPhase class.
+
+        Flow:
+        1. Get the selected date from the calendar widget and convert it to the format 'YYYY/MM/DD'.
+        2. Try to retrieve the phase description and phase percentage from the mc object (an instance of the MoonClass class).
+        3. Update the text of the moon_description_label widget with the moon phase percentage.
+        4. Update the text of the moon_phase_label widget with the
+           moon phase description.
+        5. If an exception occurs, update the text of the moon_phase_label
+           widget with the error message.
+
+        Outputs:
+        - None. The method updates the text of the moon_description_label
+          and moon_phase_label widgets in the GUI.
+        """
+        # TODO: Change date of observation based on selected date
+
         date = self.cal.selection_get().strftime('%Y/%m/%d')
         try:
-            moon_phase = self.calculate_moon_phase(date)
-            phase_description = self.get_moon_phase_description(moon_phase)
+            phase_description = self.mc.phase_description
+            moon_phase = self.mc.phase_percent
             self.moon_description_label.config(
-                text=f"Illumination: {(moon_phase * 100):.0f}%")
+                text=f"Illumination: {moon_phase:.0f}%")
             self.moon_phase_label.config(
                 text=f"{phase_description}")
         except Exception as e:
-            self.moon_phase_label.config(text=f"Invalid Date: {e}")
+            self.moon_phase_label.config(text=f"Error: {e}")
 
 # ----------------------- CREATE WIDGETS ----------------------------------#
     def create_widgets(self):
