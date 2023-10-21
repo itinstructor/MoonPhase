@@ -1,13 +1,12 @@
-# Moon Phase 
+# Moon Phase App
 
 Python CLI and Tkinter GUI programs using the Python [ephem](https://pypi.org/project/ephem/) library to calculate moon phases.
 
 Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to convert the Python .py program to a Windows exe using GCC.
 
-Neither program works quite right. Work in progress.
-
 ## Version History
 
+- (10-20-23) V2 CLI Moon phase descriptions work
 - (07-10-23) V2 Refactor to OOP. Move all ephem moon logic into moon_class.py
 - (07-08-23) V1 Initial commit of CLI and GUI
 
