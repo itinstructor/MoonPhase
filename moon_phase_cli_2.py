@@ -3,6 +3,7 @@
     Author: William A Loring
     Created: 07-08-23
     Purpose: Python moon phase program using ephem library
+    Display moon information at the current time and location
 """
 
 
@@ -30,7 +31,7 @@ class MoonPhase:
         self.mc = moon_class.MoonClass(self.lat, self.lng)
 
         # Display moon information
-        print("--------------------------------------------------------------")
+        print(" --------------------------------------------------------------")
         print(f" {self.address}")
         print(f" {self.mc.formatted_time}")
         print(" Distance from Earth to Moon")

@@ -55,9 +55,6 @@ root = tk.Tk()
 root.title("Moon Phase Calculator")
 root.geometry("250x300+100+100")
 root.iconbitmap("moon.ico")
-# Create widgets
-date_label = ttk.Label(root, text="Select Date:")
-date_label.pack()
 
 cal = Calendar(root, selectmode="day", date_pattern="yyyy/mm/dd")
 cal.pack(pady=10)

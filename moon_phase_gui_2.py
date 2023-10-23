@@ -20,26 +20,29 @@ class MoonPhase:
         self.root.geometry("+100+100")
         self.root.iconbitmap("moon.ico")
         self.create_widgets()
-        # Hardcode lat and lng to Scottsbluff, NE
-        self.lat = '41.8666'
-        self.lng = '-103.6672'
+
         # Create moonclass object to access methods and properties
-        self.mc = moon_class.MoonClass(self.lat, self.lng)
+        # Default location is lat and lng of Scottsbluff, NE
+        self.mc = moon_class.MoonClass()
+
         # Run the main loop
         self.root.mainloop()
 
 # ----------------------- DISPLAY MOON PHASE ------------------------------#
     def display_moon_phase(self):
         """
-        Updates the moon phase information displayed in the GUI based on the selected date.
+        Updates moon phase information displayed based on the selected date.
 
         Inputs:
         - self: The instance of the MoonPhase class.
 
         Flow:
-        1. Get the selected date from the calendar widget and convert it to the format 'YYYY/MM/DD'.
-        2. Try to retrieve the phase description and phase percentage from the mc object (an instance of the MoonClass class).
-        3. Update the text of the moon_description_label widget with the moon phase percentage.
+        1. Get the selected date from the calendar widget
+           and convert it to the format 'YYYY/MM/DD'.
+        2. Try to retrieve the phase description and phase percentage 
+           from the mc object (an instance of the MoonClass class).
+        3. Update the text of the moon_description_label widget
+        with the moon phase percentage.
         4. Update the text of the moon_phase_label widget with the
            moon phase description.
         5. If an exception occurs, update the text of the moon_phase_label
@@ -51,7 +54,10 @@ class MoonPhase:
         """
         # TODO: Change date of observation based on selected date
 
-        date = self.cal.selection_get().strftime('%Y/%m/%d')
+        current_time = self.cal.selection_get().strftime('%Y/%m/%d')
+        print(current_time)
+        self.mc.get_observer(current_time)
+
         try:
             phase_description = self.mc.phase_description
             moon_phase = self.mc.phase_percent

@@ -7,40 +7,20 @@
 # pip install epmem
 import ephem
 import os
+from datetime import datetime
 
 
 class MoonClass:
 
     def __init__(self, lat='41.8666', lng='-103.6672') -> None:
-        # Initialize properties
+        # Set latitude and longitude properties
+        # Default argument lat lng: Scottsbluff, NE, US
         self._lat = lat
         self._lng = lng
-
-        # Create observer object, the location we are observing from
-        self.observer = ephem.Observer()
-        self.observer.lat = self._lat
-        self.observer.long = self._lng
-
-        # Get current date and time
-        date = ephem.now()
-        # Convert to local time
-        self.local_time = ephem.localtime(date)
-
-        # Create moon object from local time
-        moon = ephem.Moon(self.local_time)
-
-        # Calculate moon information based on observer information
-        moon.compute(self.observer)
-
-        # Distance from earth to the moon
-        self._earth_to_moon = moon.earth_distance
-
-        # Surface illumination of the moon in percent
-        self._phase_percent = moon.phase
-
-        # Surface illumination of the moon from 0.0 to 1.0
-        self._phase = moon.moon_phase
-        self.get_phase_description()
+        now = datetime.now()
+        # current_time = now.strftime("%H:%M:%S")
+        self._current_time = now
+        # self._current_time = None
 
 # ----------------------- MOON CLASS PROPERTIES ---------------------------#
     @property
@@ -68,6 +48,11 @@ class MoonClass:
         return self._km_to_moon
 
     @property
+    def current_time(self):
+        """Convert from AU to KM"""
+        return self._current_time
+
+    @property
     def formatted_time(self):
         # Time format on Windows modified by #
         if os.name == "nt":
@@ -78,6 +63,40 @@ class MoonClass:
             self._formatted_time = local_time.strftime(
                 " %-I:%M %p %-m/%-d/%Y")
         return self._formatted_time
+
+    def get_current_time(self):
+        # Get current date and time
+        time = ephem.now()
+        # Convert to local time
+        time = ephem.localtime(time)
+        self._current_time = time.strftime('%Y/%m/%d')
+        print(self._current_time)
+
+    def get_observer(self, time=None):
+        if time is None:
+            time = self._current_time
+        print(time)
+        # Create observer object, the location we are observing from
+        self.observer = ephem.Observer()
+        self.observer.lat = self._lat
+        self.observer.long = self._lng
+        self.observer.date = time
+        
+        # Create moon object from time
+        moon = ephem.Moon(time)
+
+        # Calculate moon information based on observer information
+        moon.compute(self.observer)
+
+        # Distance from earth to the moon
+        self._earth_to_moon = moon.earth_distance
+
+        # Surface illumination of the moon in percent
+        self._phase_percent = moon.phase
+
+        # Surface illumination of the moon from 0.0 to 1.0
+        self._phase = moon.moon_phase
+        self.get_phase_description()
 
 # ----------------------- MOON PHASE DESCRIPTION --------------------------#
     def get_phase_description(self):
@@ -103,9 +122,13 @@ class MoonClass:
             "Waning Crescent (decreasing from full)"
         ]
         # Get the current date in UTC
-        target_date_utc = self.observer.date
+        # target_date_utc = self.observer.date
         # Convert UTC date to local date
-        target_date_local = ephem.localtime(target_date_utc).date()
+        # target_date_local = ephem.localtime(target_date_utc).date()
+        target_date_utc = self.observer.date
+        # Calculate dates for various moon phases
+        # target_date_local = ephem.localtime(target_date_utc).date()
+        target_date_local = target_date_utc
 
         # Calculate dates for various moon phases
         next_full = ephem.localtime(
