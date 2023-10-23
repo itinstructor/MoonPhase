@@ -29,6 +29,7 @@ class MoonPhase:
 
         # Create moonclass object to access methods and properties
         self.mc = moon_class.MoonClass(self.lat, self.lng)
+        self.mc.get_observer()
 
         # Display moon information
         print(" --------------------------------------------------------------")

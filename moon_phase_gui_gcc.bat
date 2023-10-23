@@ -8,6 +8,7 @@ python -m nuitka ^
     --include-package=babel.numbers ^
     --enable-plugin=tk-inter ^
     --windows-icon-from-ico=moon.ico ^
+    -o moon_phase_gui.exe ^
     moon_phase_gui_2.py
 pause
 
