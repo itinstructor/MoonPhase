@@ -19,7 +19,7 @@ class MoonClass:
         self._lng = lng
         # self.formatted_time = None
         # current_time = now.strftime("%H:%M:%S")
-        
+
         # Get the current local computer time
         self._current_time = datetime.now()
         # self._current_time = None
@@ -51,7 +51,7 @@ class MoonClass:
 
     @property
     def current_time(self):
-        """Convert from AU to KM"""
+        """Return current time"""
         return self._current_time
 
     @property
@@ -76,15 +76,16 @@ class MoonClass:
         Example Usage:
         moon = MoonClass()
         moon.get_current_time()
-        print(moon.current_time)  # Output: the current date in the format 'YYYY/MM/DD'
+        # Output: the current date in the format 'YYYY/MM/DD'
+        print(moon.current_time)  
 
         Inputs: None
 
         Flow:
-        1. Get the current date and time using the `ephem.now()` function.
-        2. Convert the date and time to the local time using the `ephem.localtime()` function.
-        3. Format the local time as a string in the format 'YYYY/MM/DD' using the `strftime()` method.
-        4. Store the formatted time in the `_current_time` attribute of the `MoonClass` instance.
+        1. Get current date and time using the `ephem.now()` function.
+        2. Convert date and time to local time using `ephem.localtime()` function.
+        3. Format local time as a string in the format 'YYYY/MM/DD' using the `strftime()` method.
+        4. Store formatted time in the `_current_time` attribute of the `MoonClass` instance.
 
         Outputs: None
         """
@@ -92,8 +93,9 @@ class MoonClass:
         time = ephem.now()
         # Convert to local time
         time = ephem.localtime(time)
+        # Format local time as string
         self._current_time = time.strftime('%Y/%m/%d')
-        print(self._current_time)
+        # print(self._current_time)
 
 # ----------------------- GET EPHEM OBSERVER ------------------------------#
     def get_observer(self, time=None):
@@ -112,14 +114,17 @@ class MoonClass:
         Example Usage:
             moon = MoonClass()
             moon.get_observer('2022/01/01')
-            print(moon.earth_to_moon)  # Output: distance from earth to the moon
-            print(moon.phase_percent)  # Output: surface illumination of the moon in percent
-            print(moon.phase_description)  # Output: description of the moon phase
+            # Output: distance from earth to the moon
+            print(moon.earth_to_moon)
+            # Output: surface illumination of the moon in percent
+            print(moon.phase_percent)
+            # Output: description of the moon phase
+            print(moon.phase_description)
         """
         if time is None:
             time = self._current_time
         print(time)
-        # Create observer object, the location we are observing from
+        # Create observer object, the location and time we are observing from
         self.observer = ephem.Observer()
         self.observer.lat = self._lat
         self.observer.long = self._lng
@@ -168,6 +173,7 @@ class MoonClass:
         # target_date_utc = self.observer.date
         # Convert UTC date to local date
         # target_date_local = ephem.localtime(target_date_utc).date()
+
         target_date_utc = self.observer.date
         # Calculate dates for various moon phases
         # target_date_local = ephem.localtime(target_date_utc).date()
@@ -190,7 +196,7 @@ class MoonClass:
         previous_first_quarter = ephem.localtime(
             ephem.previous_first_quarter_moon(target_date_utc)).date()
 
-        # Determine the moon phase based on the dates
+        # Determine the moon phase based on dates
         if target_date_local in (next_full, previous_full):
             self._phase_description = description[4]
         elif target_date_local in (next_new, previous_new):
