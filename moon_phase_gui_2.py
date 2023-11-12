@@ -8,7 +8,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import Calendar
-import ephem
 import moon_class
 
 
@@ -54,17 +53,32 @@ class MoonPhase:
         """
         # TODO: Change date of observation based on selected date
 
+        # Extract the selected date from the calendar and format as a string
         current_time = self.cal.selection_get().strftime('%Y/%m/%d')
-        print(current_time)
+
+        # Uncomment the line below for debugging purposes
+        # print(current_time)
+
+        # Set observer location and current time for moon phase calculation
         self.mc.get_observer(current_time)
 
+        # Attempt to retrieve moon phase information
         try:
+            # Retrieve moon phase description and percentage illumination
             phase_description = self.mc.phase_description
             moon_phase = self.mc.phase_percent
+
+            # Update the GUI label with moon illumination percentage
             self.moon_description_label.config(
-                text=f"Illumination: {moon_phase:.0f}%")
+                text=f"Illumination: {moon_phase:.0f}%"
+            )
+
+            # Update the GUI label with the moon phase description
             self.moon_phase_label.config(
-                text=f"{phase_description}")
+                text=f"{phase_description}"
+            )
+        
+        # Handle exceptions and update label
         except Exception as e:
             self.moon_phase_label.config(text=f"Error: {e}")
 

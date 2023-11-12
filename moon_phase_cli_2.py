@@ -24,18 +24,24 @@ class MoonPhase:
 
         # Get location lat, lng, and address from geopy
         self.lat, self.lng, self.address = gp.geocode(
-            city, state, country
+            city,
+            state,
+            country
         )
 
         # Create moonclass object to access methods and properties
-        self.mc = moon_class.MoonClass(self.lat, self.lng)
+        self.mc = moon_class.MoonClass(
+            self.lat,
+            self.lng
+        )
+        # Set observer location
         self.mc.get_observer()
 
         # Display moon information
         print(" --------------------------------------------------------------")
         print(f" {self.address}")
         print(f" {self.mc.formatted_time}")
-        print(" Distance from Earth to Moon")
+        print(f" Distance from Earth to Moon")
         print(f"    AU: {self.mc.earth_to_moon}")
         print(f"    KM: {self.mc.km_to_moon:,.0f}")
         print(f" Miles: {self.mc.miles_to_moon:,.0f}")

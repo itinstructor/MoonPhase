@@ -54,16 +54,29 @@ class MoonClass:
         """Return current time"""
         return self._current_time
 
+# -------------------- GET FORMATTED TIME ---------------------------------#
     @property
     def formatted_time(self):
-        # Time format on Windows modified by #
+        """
+        Returns current time in a specific format
+          based on the operating system.
+
+        Returns:
+            str: The formatted current time.
+
+        Example Usage:
+            moon = MoonClass()
+            moon.get_current_time()
+            print(moon.formatted_time())
+        """
         if os.name == "nt":
             self._formatted_time = self._current_time.strftime(
-                " %#I:%M %p %#m/%#d/%Y")
-        # Time format on Linux modified by -
+                " %#I:%M %p %#m/%#d/%Y"
+            )
         else:
             self._formatted_time = self._current_time.strftime(
-                " %-I:%M %p %-m/%-d/%Y")
+                " %-I:%M %p %-m/%-d/%Y"
+            )
         return self._formatted_time
 
 # ----------------------- GET CURRENT TIME --------------------------------#
@@ -83,11 +96,13 @@ class MoonClass:
 
         Flow:
         1. Get current date and time using the `ephem.now()` function.
-        2. Convert date and time to local time using `ephem.localtime()` function.
-        3. Format local time as a string in the format 'YYYY/MM/DD' using the `strftime()` method.
-        4. Store formatted time in the `_current_time` attribute of the `MoonClass` instance.
+        2. Convert date and time to local time
+          using `ephem.localtime()` function.
+        3. Format local time as a string in the format 'YYYY/MM/DD' 
+          using the `strftime()` method.
+        4. Store formatted time in the `_current_time` attribute
+          of the `MoonClass` instance.
 
-        Outputs: None
         """
         # Get current date and time
         time = ephem.now()
@@ -107,9 +122,6 @@ class MoonClass:
             time (str, optional): A string representing the date
             and time in the format 'YYYY/MM/DD'.
             If not provided, the current time is used.
-
-        Returns:
-            None
 
         Example Usage:
             moon = MoonClass()
@@ -197,12 +209,22 @@ class MoonClass:
             ephem.previous_first_quarter_moon(target_date_utc)).date()
 
         # Determine the moon phase based on dates
-        if target_date_local in (next_full, previous_full):
+        if target_date_local in (
+            next_full, previous_full
+        ):
             self._phase_description = description[4]
-        elif target_date_local in (next_new, previous_new):
+
+        elif target_date_local in (
+            next_new, previous_new
+        ):
             self._phase_description = description[0]
-        elif target_date_local in (next_first_quarter, previous_first_quarter):
+
+        elif target_date_local in (
+            next_first_quarter,
+            previous_first_quarter
+        ):
             self._phase_description = description[2]
+        
         elif target_date_local in (next_last_quarter, previous_last_quarter):
             self._phase_description = description[6]
         elif previous_new < next_first_quarter < next_full < next_last_quarter < next_new:
