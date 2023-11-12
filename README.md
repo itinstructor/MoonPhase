@@ -6,6 +6,11 @@ Uses the Python [ephem](https://pypi.org/project/ephem/) library
 
 Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to convert the Python .py program to a Windows exe using GCC.
 
+## Requirements
+ - pip install ephem
+ - pip install geopy
+ - pip install tkcalendar
+
 ## Version History
 
 - (10-20-23) V2 CLI Moon phase descriptions work

@@ -7,6 +7,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+# pip install tkcalendar
 from tkcalendar import Calendar
 import moon_class
 
