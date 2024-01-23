@@ -12,7 +12,7 @@ from datetime import datetime
 
 class MoonClass:
 
-    def __init__(self, lat='41.8666', lng='-103.6672') -> None:
+    def __init__(self, lat='41.862302', lng='-103.6627088') -> None:
         # Set latitude and longitude properties
         # Default argument lat lng: Scottsbluff, NE, US
         self._lat = lat
@@ -116,7 +116,7 @@ class MoonClass:
     def get_observer(self, time=None):
         """
         Calculate and retrieve information about the moon based
-         on a given time and observer location.
+        on a given time and observer location.
 
         Args:
             time (str, optional): A string representing the date
@@ -135,8 +135,9 @@ class MoonClass:
         """
         if time is None:
             time = self._current_time
-        print(time)
-        # Create observer object, the location and time we are observing from
+        # print(time)
+
+        # Create observer object: the location and time we are observing from
         self.observer = ephem.Observer()
         self.observer.lat = self._lat
         self.observer.long = self._lng

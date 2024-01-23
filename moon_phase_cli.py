@@ -1,5 +1,5 @@
 """
-    Name: moon_phase_cli_2.py
+    Name: moon_phase_cli.py
     Author: William A Loring
     Created: 07-08-23
     Purpose: Python moon phase program using ephem library
