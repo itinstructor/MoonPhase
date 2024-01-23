@@ -23,6 +23,7 @@ def main():
     reverse_geocode(LAT, LON)
 
 
+# -------------------------- GEOCODE --------------------------------------#
 def geocode(city, state, country):
     """Get lat, lng, and address using geopy
         from city, state, and country
@@ -55,11 +56,10 @@ def geocode(city, state, country):
             geo_location.address
         )
     except Exception as e:
-        print("An error occured while geocoding.")
-        # Print exception message
-        print(e)
+        print(f"An error occured while geocoding. {e}")
 
 
+# ----------------------- REVERSE GEOCODE ---------------------------------#
 def reverse_geocode(lat, lon):
     """Reverse geocode from lat, lon using geopy"""
     try:
@@ -75,9 +75,7 @@ def reverse_geocode(lat, lon):
 
         return address
     except Exception as e:
-        print("An error occured while reverse geocoding.")
-        # Print exception message
-        print(e)
+        print(f"An error occured while geocoding. {e}")
 
 
 # If a standalone program, call the main function

@@ -34,13 +34,14 @@ class MoonPhase:
             self.lat,
             self.lng
         )
+        
         # Set observer location
         self.mc.get_observer()
 
         # Display moon information
         print(" --------------------------------------------------------------")
         print(f" {self.address}")
-        print(f" {self.mc.formatted_time}")
+        print(f"{self.mc.formatted_time}")
         print(f" Distance from Earth to Moon")
         print(f"    AU: {self.mc.earth_to_moon}")
         print(f"    KM: {self.mc.km_to_moon:,.0f}")

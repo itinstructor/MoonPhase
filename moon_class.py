@@ -224,7 +224,7 @@ class MoonClass:
             previous_first_quarter
         ):
             self._phase_description = description[2]
-        
+
         elif target_date_local in (next_last_quarter, previous_last_quarter):
             self._phase_description = description[6]
         elif previous_new < next_first_quarter < next_full < next_last_quarter < next_new:
