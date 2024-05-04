@@ -16,7 +16,7 @@ class MoonPhase:
     def __init__(self) -> None:
         # Create the main window
         self.root = tk.Tk()
-        self.root.title("Moon Phase Calculator")
+        self.root.title("Moon Phase")
         self.root.geometry("+100+100")
         self.root.iconbitmap("moon.ico")
         self.create_widgets()
@@ -29,7 +29,7 @@ class MoonPhase:
         self.root.mainloop()
 
 # ----------------------- DISPLAY MOON PHASE ------------------------------#
-    def display_moon_phase(self):
+    def display_moon_phase(self, *args):
         """
         Updates moon phase information displayed based on the selected date.
 
@@ -105,6 +105,11 @@ class MoonPhase:
             self._main_frame, text="Calculate Moon Phase",
             command=self.display_moon_phase
         )
+
+        for row in self.cal._calendar:
+            for lbl in row:
+                lbl.bind("<Double-1>", self.display_moon_phase)
+
         self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_moon_phase = ttk.Label(self._main_frame)
         # Fill the frame to the width of the window

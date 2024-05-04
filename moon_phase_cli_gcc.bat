@@ -6,5 +6,5 @@ python -m nuitka ^
     --lto=no ^
     --windows-icon-from-ico=moon.ico ^
     -o moon_phase_cli.exe ^
-    moon_phase_cli_2.py
+    moon_phase_cli.py
 pause

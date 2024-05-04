@@ -9,6 +9,6 @@ python -m nuitka ^
     --enable-plugin=tk-inter ^
     --windows-icon-from-ico=moon.ico ^
     -o moon_phase_gui.exe ^
-    moon_phase_gui_2.py
+    moon_phase_gui.py
 pause
 
