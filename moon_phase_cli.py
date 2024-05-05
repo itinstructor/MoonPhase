@@ -5,17 +5,27 @@
     Purpose: Python moon phase program using ephem library
     Display moon information at the current time and location
 """
-
-
-import geocode_geopy as gp
 import moon_class
+import geocode_geopy as gp
+
+# Windows: pip install rich
+# Linux: pip3 install rich
+# Import Console for console printing
+from rich.console import Console
+# Import Panel for title displays
+from rich.panel import Panel
+# Initialize rich.console
+console = Console()
 
 
 class MoonPhase:
     def __init__(self) -> None:
-        print(" +------------------------------------------+")
-        print(" |              Moon Phase App              |")
-        print(" +------------------------------------------+")
+        console.print(
+            Panel.fit(
+                "     Moon Phase Calculator     ",
+                style="bold green",
+                subtitle="By William Loring")
+        )
 
         # Get location input from user
         city = input(" Enter city: ")
@@ -34,21 +44,23 @@ class MoonPhase:
             self.lat,
             self.lng
         )
-        
+
         # Set observer location
         self.mc.get_observer()
 
         # Display moon information
-        print(" --------------------------------------------------------------")
-        print(f" {self.address}")
-        print(f"{self.mc.formatted_time}")
-        print(f" Distance from Earth to Moon")
-        print(f"    AU: {self.mc.earth_to_moon}")
-        print(f"    KM: {self.mc.km_to_moon:,.0f}")
-        print(f" Miles: {self.mc.miles_to_moon:,.0f}")
+        print(" -------------------------------------------------------------------")
+        console.print(f" [bold green]{self.address}[/bold green]")
+        console.print(f"[green]{self.mc.formatted_time}[/green]")
+        print(" -------------------------------------------------------------------")
+        console.print(f" [bold cyan]Distance from Earth to Moon[/bold cyan]")
+        console.print(f"    AU: [cyan]{self.mc.earth_to_moon}[/cyan]")
+        console.print(f"    KM: [cyan]{self.mc.km_to_moon:,.0f}[/cyan]")
+        console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]")
 
-        print(f" Illumination: {self.mc.phase_percent:.1f}%")
-        print(f" {self.mc.phase_description}")
+        console.print(
+            f" Illumination: [bold green]{self.mc.phase_percent:.1f}%[/bold green]")
+        console.print(f" [bold green]{self.mc.phase_description}[/bold green]")
 
         print()
         input(" Enter to exit")

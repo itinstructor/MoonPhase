@@ -14,7 +14,7 @@ Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to co
 
 ## Version History
 
-- (05-24-24) Tkinter add Double Click on Calendar to show moon phase
+- (05-24-24) Tkinter add Double Click on Calendar to show moon phase. Added rich console formatting to CLI.
 - (10-20-23) CLI Moon phase descriptions work
 - (07-10-23) Refactor to OOP. Move all ephem moon logic into moon_class.py
 - (07-08-23) Initial commit of CLI and GUI
