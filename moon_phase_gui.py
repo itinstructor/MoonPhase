@@ -52,7 +52,7 @@ class MoonPhase:
         - None. The method updates the text of the moon_description_label
           and moon_phase_label widgets in the GUI.
         """
-        # TODO: Change date of observation based on selected date
+        # Change date of observation based on selected date
 
         # Extract the selected date from the calendar and format as a string
         current_time = self.cal.selection_get().strftime('%Y/%m/%d')
@@ -106,10 +106,6 @@ class MoonPhase:
             command=self.display_moon_phase
         )
 
-        for row in self.cal._calendar:
-            for lbl in row:
-                lbl.bind("<Double-1>", self.display_moon_phase)
-
         self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_moon_phase = ttk.Label(self._main_frame)
         # Fill the frame to the width of the window
@@ -131,6 +127,22 @@ class MoonPhase:
             child.grid_configure(padx=5, pady=3, ipadx=1, ipady=1)
         for child in self._main_frame.winfo_children():
             child.grid_configure(padx=5, pady=3, ipadx=1, ipady=1)
+
+        # Iterate over each row in the calendar widget
+        for row in self.cal._calendar:
+            # Iterate over each label in the current row
+            for lbl in row:
+                # Bind the double-click event to the display_moon_phase method
+                lbl.bind("<Double-1>", self.display_moon_phase)
+
+        # Either enter key will call the method
+        self.root.bind("<Return>", self.display_moon_phase)
+        self.root.bind("<KP_Enter>", self.display_moon_phase)
+        self.root.bind("<Escape>", self.quit)
+
+# ------------------------- QUIT PROGRAM ----------------------------------#
+    def quit(self, *args):
+        self.root.destroy()
 
 
 # Create program object to start program
