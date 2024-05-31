@@ -9,10 +9,7 @@ import tkinter as tk
 from tkinter import ttk
 # pip install tkcalendar
 from tkcalendar import Calendar
-from base64 import b64decode
 import moon_class
-from moon_icon import moon_16
-from moon_icon import moon_32
 
 
 class MoonPhase:
@@ -21,12 +18,7 @@ class MoonPhase:
         self.root = tk.Tk()
         self.root.title("Moon Phase")
         self.root.geometry("+100+100")
-        # self.root.iconbitmap("moon.ico")
-
-        small_icon = tk.PhotoImage(data=b64decode(moon_16))
-        large_icon = tk.PhotoImage(data=b64decode(moon_32))
-        self.root.iconphoto(False, large_icon, small_icon)
-
+        self.root.iconbitmap("moon.ico")
         self.create_widgets()
 
         # Create moonclass object to access methods and properties

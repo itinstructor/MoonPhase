@@ -21,7 +21,7 @@ def main():
     # Test reverse geocode
     LAT = 41.8666
     LON = -103.6672
-    reverse_geocode(LAT, LON)
+    print(reverse_geocode(LAT, LON))
 
 
 # -------------------------- GEOCODE --------------------------------------#

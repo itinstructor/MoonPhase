@@ -31,6 +31,7 @@ class MoonPhase:
         city = input(" Enter city: ")
         state = input(" Enter state: ")
         country = input(" Enter country: ")
+        print()
 
         # Get location lat, lng, and address from geopy
         self.lat, self.lng, self.address = gp.geocode(
