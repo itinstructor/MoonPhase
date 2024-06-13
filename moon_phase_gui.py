@@ -109,8 +109,8 @@ class MoonPhaseApp:
             )
         
             # Display moon image
-            self.lbl_moon.configure(image=get_moon_phase.img)
-            self.lbl_moon.image = get_moon_phase.img
+            # self.lbl_moon.configure(image=get_moon_phase.img)
+            # self.lbl_moon.image = get_moon_phase.img
 
         # Handle exceptions and update label
         except Exception as e:
