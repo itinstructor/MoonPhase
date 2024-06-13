@@ -9,19 +9,18 @@ import tkinter as tk
 from tkinter import ttk
 # pip install tkcalendar
 from tkcalendar import Calendar
-from PIL import Image, ImageTk
 from base64 import b64decode
+import moon_class
 from moon_icon import moon_16
 from moon_icon import moon_32
-import moon_class
 
 
-class MoonPhaseApp:
+class MoonPhase:
     def __init__(self) -> None:
         # Create the main window
         self.root = tk.Tk()
         self.root.title("Moon Phase")
-        self.root.geometry("325x400+100+100")
+        self.root.geometry("+100+100")
         # self.root.iconbitmap("moon.ico")
 
         small_icon = tk.PhotoImage(data=b64decode(moon_16))
@@ -37,23 +36,6 @@ class MoonPhaseApp:
         # Run the main loop
         self.root.mainloop()
 
-# --------------------------------- MOONPHASE -----------------------------#
-    # def get_moon_phase_now(self):
-    #     """
-    #     Retrieves the moon phase from the weather data and updates the
-    #     moon description and image accordingly.
-    #     """
-    #     moon_phase = self.weather_data.get("days")[0].get("moonphase")
-
-    #     get_moon_phase = MoonPhase(moon_phase)
-    #     self.moon_phase = get_moon_phase.moon_phase
-    #     self.moon_description = get_moon_phase.moon_description
-    #     self.img = get_moon_phase.img
-
-    #     # Display moon image
-    #     self.lbl_moon.configure(image=self.img)
-    #     self.lbl_moon.image = self.img
-
 # ----------------------- DISPLAY MOON PHASE ------------------------------#
     def display_moon_phase(self, *args):
         """
@@ -65,7 +47,7 @@ class MoonPhaseApp:
         Flow:
         1. Get the selected date from the calendar widget
            and convert it to the format 'YYYY/MM/DD'.
-        2. Try to retrieve the phase description and phase percentage
+        2. Try to retrieve the phase description and phase percentage 
            from the mc object (an instance of the MoonClass class).
         3. Update the text of the moon_description_label widget
         with the moon phase percentage.
@@ -91,12 +73,9 @@ class MoonPhaseApp:
 
         # Attempt to retrieve moon phase information
         try:
-
             # Retrieve moon phase description and percentage illumination
             phase_description = self.mc.phase_description
             moon_phase = self.mc.phase_percent
-
-            # self.img = get_moon_phase.img
 
             # Update the GUI label with moon illumination percentage
             self.lbl_moon_description.config(
@@ -107,14 +86,9 @@ class MoonPhaseApp:
             self.lbl_moon_phase.config(
                 text=f"{phase_description}"
             )
-        
-            # Display moon image
-            self.lbl_moon.configure(image=get_moon_phase.img)
-            self.lbl_moon.image = get_moon_phase.img
 
         # Handle exceptions and update label
         except Exception as e:
-            raise
             self.lbl_moon_phase.config(text=f"Error: {e}")
 
 # ----------------------- CREATE WIDGETS ----------------------------------#
@@ -124,7 +98,6 @@ class MoonPhaseApp:
             self.root,
             text="Choose Date",
             relief=tk.GROOVE)
-        
         self._main_frame = tk.LabelFrame(
             self.root,
             text="Calculate Moon Phase",
@@ -134,10 +107,8 @@ class MoonPhaseApp:
             self._entry_frame,
             selectmode="day",
             date_pattern="yyyy/mm/dd",
-            firstweekday="sunday",
-            anchor=tk.CENTER
+            firstweekday="sunday"
         )
-
         self.btn_calculate = ttk.Button(
             self._main_frame, text="Calculate Moon Phase",
             command=self.display_moon_phase
@@ -145,21 +116,17 @@ class MoonPhaseApp:
 
         self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_moon_phase = ttk.Label(self._main_frame)
-        self.lbl_moon = ttk.Label(self._main_frame)
-        
         # Fill the frame to the width of the window
         self._entry_frame.pack(fill=tk.X)
         self._main_frame.pack(fill=tk.X)
-        
         # Keep the frame size regardless of the widget sizes
         self._entry_frame.pack_propagate(False)
         self._main_frame.pack_propagate(False)
 
-        self.cal.grid(row=0, column=0, columnspan=2)
+        self.cal.grid(row=0, column=0)
         self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
         self.lbl_moon_description.grid(row=2, column=0, sticky=tk.W)
         self.lbl_moon_phase.grid(row=3, column=0, sticky=tk.W)
-        self.lbl_moon.grid(row=1, column=1, rowspan= 3)
 
         # Set padding between frame and window
         self._entry_frame.pack_configure(padx=10)
@@ -173,7 +140,7 @@ class MoonPhaseApp:
         for row in self.cal._calendar:
             # Iterate over each label in the current row
             for lbl in row:
-                # Bind the double-click event to the
+                # Bind the double-click event to the 
                 # display_moon_phase method
                 lbl.bind("<Double-1>", self.display_moon_phase)
 
@@ -188,4 +155,4 @@ class MoonPhaseApp:
 
 
 # Create program object to start program
-moon_phase_app = MoonPhaseApp()
+moon_phase = MoonPhase()

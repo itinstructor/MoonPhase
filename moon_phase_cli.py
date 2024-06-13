@@ -20,6 +20,7 @@ console = Console()
 
 class MoonPhase:
     def __init__(self) -> None:
+        # Print title for program
         console.print(
             Panel.fit(
                 "     Moon Phase Calculator     ",
@@ -60,7 +61,9 @@ class MoonPhase:
         console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]")
 
         console.print(
-            f" Illumination: [bold green]{self.mc.phase_percent:.1f}%[/bold green]")
+            f" Illumination: [bold green]{
+                self.mc.phase_percent:.1f}%[/bold green]"
+        )
         console.print(f" [bold green]{self.mc.phase_description}[/bold green]")
 
         print()
