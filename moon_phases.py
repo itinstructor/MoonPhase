@@ -15,7 +15,7 @@ class MoonPhaseCalc:
 
     def __init__(self, moon_phase:float):
         """Takes moon_phase as a number, calculates description """
-        self.moon_phase = moon_phase
+        self._moon_phase = moon_phase
         self._moon_description = ""
         self._img = None
         self.get_moon_phase()
@@ -49,35 +49,35 @@ class MoonPhaseCalc:
         # from 0 (the new moon) to 0.5 (the full moon)
         # and back to 1 (the next new moon)
         # print(self.moon_phase)
-        if (self.moon_phase <= 0.0339):
+        if (self._moon_phase <= 0.0339):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[0]
             self._img = Image.open(r"./assets/new.png")
 
-        elif (self.moon_phase <= 0.2161):
+        elif (self._moon_phase <= 0.2161):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[1]
             self._img = Image.open(r"./assets/waxing_crescent.png")
 
-        elif (self.moon_phase <= 0.2839):
+        elif (self._moon_phase <= 0.2839):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[2]
             self._img = Image.open(r"./assets/first_quarter.png")
 
-        elif (self.moon_phase <= 0.4661):
+        elif (self._moon_phase <= 0.4661):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[3]
             self._img = Image.open(r"./assets/waxing_gibbous.png")
 
-        elif (self.moon_phase <= 0.5339):
+        elif (self._moon_phase <= 0.5339):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[4]
             self._img = Image.open(r"./assets/full.png")
 
-        elif (self.moon_phase <= 0.7161):
+        elif (self._moon_phase <= 0.7161):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[5]
             self._img = Image.open(r"./assets/waning_gibbous.png")
 
-        elif (self.moon_phase <= 0.7839):
+        elif (self._moon_phase <= 0.7839):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[6]
             self._img = Image.open(r"./assets/last_quarter.png")
 
-        elif (self.moon_phase <= 1.0):
+        elif (self._moon_phase <= 1.0):
             self._moon_description = MoonPhaseCalc.moon_phase_descriptions[7]
             self._img = Image.open(r"./assets/waning_crescent.png")
 
@@ -86,9 +86,9 @@ class MoonPhaseCalc:
 
         # Calculate moon phase in percent
         # Check if the moon phase is in the first half of its cycle
-        if self.moon_phase <= 0.5:
+        if self._moon_phase <= 0.5:
             # Scale the moon phase to a value between 0 and 100
-            self.moon_phase = self.moon_phase * 200.0
+            self._moon_phase = self._moon_phase * 200.0
         else:
             # Scale the moon phase to a value between 100 and 0
-            self.moon_phase = (1.0 - self.moon_phase) * 200.0
+            self._moon_phase = (1.0 - self._moon_phase) * 200.0

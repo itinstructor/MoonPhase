@@ -8,6 +8,7 @@
 import ephem
 import os
 from datetime import datetime
+from PIL import Image, ImageTk
 
 
 class MoonClass:
@@ -42,6 +43,7 @@ class MoonClass:
 
     @property
     def earth_to_moon(self):
+        """Distance in AU"""
         return self._earth_to_moon
 
     @property
@@ -60,65 +62,6 @@ class MoonClass:
     def current_time(self):
         """Return current time"""
         return self._current_time
-
-# -------------------- GET FORMATTED TIME ---------------------------------#
-    @property
-    def formatted_time(self):
-        """
-        Returns current time in a specific format
-          based on the operating system.
-
-        Returns:
-            str: The formatted current time.
-
-        Example Usage:
-            moon = MoonClass()
-            moon.get_current_time()
-            print(moon.formatted_time())
-        """
-        if os.name == "nt":
-            self._formatted_time = self._current_time.strftime(
-                " %#I:%M %p %#m/%#d/%Y"
-            )
-        else:
-            self._formatted_time = self._current_time.strftime(
-                " %-I:%M %p %-m/%-d/%Y"
-            )
-        return self._formatted_time
-
-# ----------------------- GET CURRENT TIME --------------------------------#
-    def get_current_time(self):
-        """
-        Retrieves the current date and time, 
-        converts it to the local time, 
-        and stores it in the `_current_time` attribute.
-
-        Example Usage:
-        moon = MoonClass()
-        moon.get_current_time()
-        # Output: the current date in the format 'YYYY/MM/DD'
-        print(moon.current_time)  
-
-        Inputs: None
-
-        Flow:
-        1. Get current date and time using the `ephem.now()` function.
-        2. Convert date and time to local time
-          using `ephem.localtime()` function.
-        3. Format local time as a string in the format 'YYYY/MM/DD' 
-          using the `strftime()` method.
-        4. Store formatted time in the `_current_time` attribute
-          of the `MoonClass` instance.
-
-        """
-        # Get current date and time
-        time = ephem.now()
-
-        # Convert to local time
-        time = ephem.localtime(time)
-
-        # Format local time as string
-        self._current_time = time.strftime('%Y/%m/%d')
 
 # ----------------------- GET EPHEM OBSERVER ------------------------------#
     def get_observer(self, time=None):
@@ -163,7 +106,7 @@ class MoonClass:
         self._phase_percent = moon.phase
 
         # Surface illumination of the moon from 0.0 to 1.0
-        self._phase = moon.moon_phase
+        self._moon_phase = moon.moon_phase
         self.get_phase_description()
 
 # ----------------------- MOON PHASE DESCRIPTION --------------------------#
@@ -230,3 +173,62 @@ class MoonClass:
             self._phase_description = MoonClass.moon_phase_descriptions[5]
         elif previous_last_quarter < next_new < next_first_quarter < next_full < next_last_quarter:
             self._phase_description = MoonClass.moon_phase_descriptions[7]
+
+# -------------------- GET FORMATTED TIME ---------------------------------#
+    @property
+    def formatted_time(self):
+        """
+        Returns current time in a specific format
+          based on the operating system.
+
+        Returns:
+            str: The formatted current time.
+
+        Example Usage:
+            moon = MoonClass()
+            moon.get_current_time()
+            print(moon.formatted_time())
+        """
+        if os.name == "nt":
+            self._formatted_time = self._current_time.strftime(
+                " %#I:%M %p %#m/%#d/%Y"
+            )
+        else:
+            self._formatted_time = self._current_time.strftime(
+                " %-I:%M %p %-m/%-d/%Y"
+            )
+        return self._formatted_time
+
+# ----------------------- GET CURRENT TIME --------------------------------#
+    # def get_current_time(self):
+    #     """
+    #     Retrieves the current date and time,
+    #     converts it to the local time,
+    #     and stores it in the `_current_time` attribute.
+
+    #     Example Usage:
+    #     moon = MoonClass()
+    #     moon.get_current_time()
+    #     # Output: the current date in the format 'YYYY/MM/DD'
+    #     print(moon.current_time)
+
+    #     Inputs: None
+
+    #     Flow:
+    #     1. Get current date and time using the `ephem.now()` function.
+    #     2. Convert date and time to local time
+    #       using `ephem.localtime()` function.
+    #     3. Format local time as a string in the format 'YYYY/MM/DD'
+    #       using the `strftime()` method.
+    #     4. Store formatted time in the `_current_time` attribute
+    #       of the `MoonClass` instance.
+
+    #     """
+    #     # Get current date and time
+    #     time = ephem.now()
+
+    #     # Convert to local time
+    #     time = ephem.localtime(time)
+
+    #     # Format local time as string
+    #     self._current_time = time.strftime('%Y/%m/%d')

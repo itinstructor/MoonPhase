@@ -28,14 +28,33 @@ class MoonPhase:
                 subtitle="By William Loring")
         )
 
+        # Get location input from user
+        city = input(" Enter city: ")
+        state = input(" Enter state: ")
+        country = input(" Enter country: ")
+        print()
+
+        # Get location lat, lng, and address from geopy
+        self.lat, self.lng, self.address = gp.geocode(
+            city,
+            state,
+            country
+        )
+
         # Create moonclass object to access methods and properties
-        self.mc = moon_class.MoonClass()
+        self.mc = moon_class.MoonClass(
+            self.lat,
+            self.lng
+        )
 
         # Set observer location
         self.mc.get_observer()
 
         # Display moon information
+        print(" -------------------------------------------------------------------")
+        console.print(f" [bold green]{self.address}[/bold green]")
         console.print(f"[green]{self.mc.formatted_time}[/green]")
+        print(" -------------------------------------------------------------------")
         console.print(f" [bold cyan]Distance from Earth to Moon[/bold cyan]")
         console.print(f"    AU: [cyan]{self.mc.earth_to_moon}[/cyan]")
         console.print(f"    KM: [cyan]{self.mc.km_to_moon:,.0f}[/cyan]")
