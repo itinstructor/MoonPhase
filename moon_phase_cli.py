@@ -29,7 +29,7 @@ class MoonPhase:
         # Create moonclass object to access methods and properties
         self.mc = moon_class.MoonClass()
 
-        # Set observer location
+        # Create observer
         self.mc.get_observer()
 
         # Display moon information
@@ -40,8 +40,7 @@ class MoonPhase:
         console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]")
 
         console.print(
-            f" Illumination: [bold green]{
-                self.mc.phase_percent:.1f}%[/bold green]"
+            f" Illumination: [bold green]{self.mc.phase_percent:.0f}%[/bold green]"
         )
         console.print(f" [bold green]{self.mc.phase_description}[/bold green]")
 

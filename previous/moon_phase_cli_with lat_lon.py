@@ -53,7 +53,7 @@ class MoonPhase:
         # Display moon information
         print(" -------------------------------------------------------------------")
         console.print(f" [bold green]{self.address}[/bold green]")
-        console.print(f"[green]{self.mc.formatted_time}[/green]")
+        console.print(f"[green]{self.mc.get_formatted_time}[/green]")
         print(" -------------------------------------------------------------------")
         console.print(f" [bold cyan]Distance from Earth to Moon[/bold cyan]")
         console.print(f"    AU: [cyan]{self.mc.earth_to_moon}[/cyan]")

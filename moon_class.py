@@ -7,7 +7,7 @@
 # pip install epmem
 import ephem
 import os
-from datetime import datetime
+from datetime import date
 from PIL import Image, ImageTk
 
 
@@ -29,15 +29,12 @@ class MoonClass:
         self._lat = lat
         self._lng = lng
 
-        # Get the current local computer time
-        self._current_time = datetime.now()
-
 # ----------------------- MOON CLASS PROPERTIES ---------------------------#
     @property
     def moon_phase(self):
         # print(f"Moon Phase: {self._moon_phase}")
         return self._moon_phase
-    
+
     @property
     def phase_percent(self):
         return self._phase_percent
@@ -65,8 +62,13 @@ class MoonClass:
 
     @property
     def current_time(self):
-        """Return current time"""
+        """Return current Python time object"""
         return self._current_time
+
+    @property
+    def formatted_time(self):
+        """Return formatted time"""
+        return self._formatted_time
 
 # ----------------------- GET EPHEM OBSERVER ------------------------------#
     def get_observer(self, time=None):
@@ -89,16 +91,22 @@ class MoonClass:
             # Output: description of the moon phase
             print(moon.phase_description)
         """
+        # If time is not passed as a parameter, replace with current time
         if time is None:
+            # Get the current local computer date
+            self._current_time = date.today()
             time = self._current_time
 
-        # Create observer object: the location and time we are observing from
+        self.get_formatted_time()
+
+        # Create observer object with the location and
+        # time we are observing from
         self.observer = ephem.Observer()
         self.observer.lat = self._lat
         self.observer.long = self._lng
         self.observer.date = time
 
-        # Create moon object from time
+        # Create moon object from time parameter
         moon = ephem.Moon(time)
 
         # Calculate moon information based on observer information
@@ -109,11 +117,12 @@ class MoonClass:
 
         # Surface illumination of the moon in percent
         self._phase_percent = moon.phase
-        print(f"Moon Phase Percent: {self._phase_percent}")
+        # print(f"Moon Phase Percent: {self._phase_percent}")
 
         # Surface illumination of the moon from 0.0 to 1.0
         self._moon_phase = moon.moon_phase
-        print(f"Moon Phase: {self._moon_phase}")
+        # print(f"Moon Phase: {self._moon_phase}")
+
         self.get_phase_description()
 
 # ----------------------- MOON PHASE DESCRIPTION --------------------------#
@@ -136,7 +145,7 @@ class MoonClass:
         # Calculate dates for various moon phases
         target_date_local = target_date_utc
 
-        # Calculate dates for various moon phases
+        # Calculate dates for next full moon, new moon, etc.
         next_full = ephem.localtime(
             ephem.next_full_moon(target_date_utc)).date()
         next_new = ephem.localtime(ephem.next_new_moon(target_date_utc)).date()
@@ -182,8 +191,7 @@ class MoonClass:
             self._phase_description = MoonClass.moon_phase_descriptions[7]
 
 # -------------------- GET FORMATTED TIME ---------------------------------#
-    @property
-    def formatted_time(self):
+    def get_formatted_time(self):
         """
         Returns current time in a specific format
           based on the operating system.
@@ -204,7 +212,6 @@ class MoonClass:
             self._formatted_time = self._current_time.strftime(
                 " %-I:%M %p %-m/%-d/%Y"
             )
-        return self._formatted_time
 
 # ----------------------- GET CURRENT TIME --------------------------------#
     # def get_current_time(self):
