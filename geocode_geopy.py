@@ -17,7 +17,6 @@ def main():
     country = input("Enter Country: ")
     print(geocode(city, state, country))
 
-
     # Test reverse geocode
     LAT = 41.8666
     LON = -103.6672

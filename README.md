@@ -4,11 +4,11 @@ Python CLI and Tkinter GUI programs to calculate moon phases and other moon data
 
 ![MoonPhase GUI Screenshot](./img/moon_phase_gui.png)
 
-Uses the Python [ephem](https://pypi.org/project/ephem/) library.
-
-Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to convert the Python .py program to a Windows exe using GCC.
+Batch files are included to use [Nuitka](https://pypi.org/project/Nuitka/) to convert the Python .py program to a Windows exe using GCC. To avoid false positives from my anti virus for the single file, I created a Windows 11 Evaluation VM and installed Nuitka 1.8.6 and Python 3.9.13.
 
 ## Requirements
+
+Uses the Python [ephem](https://pypi.org/project/ephem/) library.
 
 - pip install ephem
 - pip install geopy
