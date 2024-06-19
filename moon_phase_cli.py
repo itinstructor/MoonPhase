@@ -6,8 +6,6 @@
     Display moon information at the current time and location
 """
 import moon_class
-import geocode_geopy as gp
-
 # Windows: pip install rich
 # Linux: pip3 install rich
 # Import Console for console printing

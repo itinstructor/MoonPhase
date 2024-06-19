@@ -9,11 +9,12 @@ import tkinter as tk
 from tkinter import ttk
 # pip install tkcalendar
 from tkcalendar import Calendar
-from PIL import Image, ImageTk
+# from PIL import Image, ImageTk
 from base64 import b64decode
 from moon_icon import moon_16
 from moon_icon import moon_32
 import moon_class
+import moon_phases
 
 
 class MoonPhaseApp:
@@ -93,11 +94,14 @@ class MoonPhaseApp:
         try:
 
             # Retrieve moon phase description and percentage illumination
-            phase_description = self.mc.phase_description
-            moon_phase = self.mc.phase_percent
+            # phase_description = self.mc.phase_description
+            moon_phase = self.mc.moon_phase
+            # print(moon_phase)
+
+            self.mp = moon_phases.MoonPhaseCalc(moon_phase)
 
             # self.img = get_moon_phase.img
-
+            moon_phase = self.mp.moon_phase * 100.0
             # Update the GUI label with moon illumination percentage
             self.lbl_moon_description.config(
                 text=f"Illumination: {moon_phase:.0f}%"
@@ -105,8 +109,9 @@ class MoonPhaseApp:
 
             # Update the GUI label with the moon phase description
             self.lbl_moon_phase.config(
-                text=f"{phase_description}"
+                text=f"{self.mp.moon_description}"
             )
+            # print(self.mp.moon_description)
         
             # Display moon image
             # self.lbl_moon.configure(image=get_moon_phase.img)

@@ -34,6 +34,11 @@ class MoonClass:
 
 # ----------------------- MOON CLASS PROPERTIES ---------------------------#
     @property
+    def moon_phase(self):
+        # print(f"Moon Phase: {self._moon_phase}")
+        return self._moon_phase
+    
+    @property
     def phase_percent(self):
         return self._phase_percent
 
@@ -104,9 +109,11 @@ class MoonClass:
 
         # Surface illumination of the moon in percent
         self._phase_percent = moon.phase
+        print(f"Moon Phase Percent: {self._phase_percent}")
 
         # Surface illumination of the moon from 0.0 to 1.0
         self._moon_phase = moon.moon_phase
+        print(f"Moon Phase: {self._moon_phase}")
         self.get_phase_description()
 
 # ----------------------- MOON PHASE DESCRIPTION --------------------------#
