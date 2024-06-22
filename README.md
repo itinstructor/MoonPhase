@@ -16,10 +16,11 @@ Uses the Python [ephem](https://pypi.org/project/ephem/) library.
 
 ## Version History
 
-- (05-24-24) Tkinter add Double Click on Calendar to show moon phase. Added rich console formatting to CLI.
-- (10-20-23) CLI Moon phase descriptions work
-- (07-10-23) Refactor to OOP. Move all ephem moon logic into moon_class.py
-- (07-08-23) Initial commit of CLI and GUI
+- (06/21/2024) Phase description calcuation method changed to be more accurate
+- (05/24/2024) Tkinter add Double Click on Calendar to show moon phase. Added rich console formatting to CLI.
+- (10/20/2023) CLI Moon phase descriptions work
+- (07/10/2023) Refactor to OOP. Move all ephem moon logic into moon_class.py
+- (07/08/2023) Initial commit of CLI and GUI
 
 ### License
 
