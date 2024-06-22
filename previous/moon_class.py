@@ -3,12 +3,11 @@
     Author: William A Loring
     Created: 07-08-23
     Purpose: Python moon phase methods class
-    06/21/24: Use new method of calculating moon phase
 """
 # pip install epmem
 import ephem
 import os
-import datetime
+from datetime import date
 from PIL import Image, ImageTk
 
 
@@ -37,8 +36,8 @@ class MoonClass:
         return self._moon_phase
 
     @property
-    def illumination(self):
-        return self._illumination
+    def phase_percent(self):
+        return self._phase_percent
 
     @property
     def phase_description(self):
@@ -72,7 +71,7 @@ class MoonClass:
         return self._formatted_time
 
 # ----------------------- GET EPHEM OBSERVER ------------------------------#
-    def get_observer(self, date=None):
+    def get_observer(self, time=None):
         """
         Calculate and retrieve information about the moon based
         on a given time and observer location.
@@ -93,46 +92,35 @@ class MoonClass:
             print(moon.phase_description)
         """
         # If time is not passed as a parameter, replace with current time
-        if date is None:
+        if time is None:
             # Get the current local computer date
-            self._current_time = datetime.date.today()
-            date = self._current_time
+            self._current_time = date.today()
+            time = self._current_time
 
-    
         self.get_formatted_time()
 
-        # Convert date to ephem format
-        date = ephem.Date(date)
         # Create observer object with the location and
         # time we are observing from
         self.observer = ephem.Observer()
         self.observer.lat = self._lat
         self.observer.long = self._lng
-        self.observer.date = date
+        self.observer.date = time
 
         # Create moon object from time parameter
-        moon = ephem.Moon(date)
+        moon = ephem.Moon(time)
 
         # Calculate moon information based on observer information
         moon.compute(self.observer)
-        
-        # Calculate lunation
-        previous_new_moon = ephem.previous_new_moon(date)
-        next_new_moon = ephem.next_new_moon(date)
-        lunation = (date - previous_new_moon) / \
-            (next_new_moon - previous_new_moon)
-        
-        self._moon_phase = lunation % 1
 
         # Distance from earth to the moon
         self._earth_to_moon = moon.earth_distance
 
         # Surface illumination of the moon in percent
-        self._illumination = moon.phase
+        self._phase_percent = moon.phase
         # print(f"Moon Phase Percent: {self._phase_percent}")
 
         # Surface illumination of the moon from 0.0 to 1.0
-        # self._moon_phase = moon.moon_phase
+        self._moon_phase = moon.moon_phase
         # print(f"Moon Phase: {self._moon_phase}")
 
         self.get_phase_description()
@@ -151,39 +139,56 @@ class MoonClass:
         and 1.0 being a New Moon again.
         """
 
-                
-        if (self._moon_phase <= 0.0339):
-            self._phase_description = MoonClass.moon_phase_descriptions[0]
-            # self._img = Image.open(r"./assets/new.png")
+        # Get the current date in UTC
+        target_date_utc = self.observer.date
 
-        elif (self._moon_phase <= 0.2161):
-            self._phase_description = MoonClass.moon_phase_descriptions[1]
-            # self._img = Image.open(r"./assets/waxing_crescent.png")
+        # Calculate dates for various moon phases
+        target_date_local = target_date_utc
 
-        elif (self._moon_phase <= 0.2839):
-            self._phase_description = MoonClass.moon_phase_descriptions[2]
-            # self._img = Image.open(r"./assets/first_quarter.png")
+        # Calculate dates for next full moon, new moon, etc.
+        next_full = ephem.localtime(
+            ephem.next_full_moon(target_date_utc)).date()
+        next_new = ephem.localtime(ephem.next_new_moon(target_date_utc)).date()
+        next_last_quarter = ephem.localtime(
+            ephem.next_last_quarter_moon(target_date_utc)).date()
+        next_first_quarter = ephem.localtime(
+            ephem.next_first_quarter_moon(target_date_utc)).date()
+        previous_full = ephem.localtime(
+            ephem.previous_full_moon(target_date_utc)).date()
+        previous_new = ephem.localtime(
+            ephem.previous_new_moon(target_date_utc)).date()
+        previous_last_quarter = ephem.localtime(
+            ephem.previous_last_quarter_moon(target_date_utc)).date()
+        previous_first_quarter = ephem.localtime(
+            ephem.previous_first_quarter_moon(target_date_utc)).date()
 
-        elif (self._moon_phase <= 0.4661):
-            self._phase_description = MoonClass.moon_phase_descriptions[3]
-            # self._img = Image.open(r"./assets/waxing_gibbous.png")
-
-        elif (self._moon_phase <= 0.5339):
+        # Determine the moon phase based on dates
+        if target_date_local in (
+            next_full, previous_full
+        ):
             self._phase_description = MoonClass.moon_phase_descriptions[4]
-            # self._img = Image.open(r"./assets/full.png")
 
-        elif (self._moon_phase <= 0.7161):
-            self._phase_description = MoonClass.moon_phase_descriptions[5]
-            # self._img = Image.open(r"./assets/waning_gibbous.png")
+        elif target_date_local in (
+            next_new, previous_new
+        ):
+            self._phase_description = MoonClass.moon_phase_descriptions[0]
 
-        elif (self._moon_phase <= 0.7839):
+        elif target_date_local in (
+            next_first_quarter,
+            previous_first_quarter
+        ):
+            self._phase_description = MoonClass.moon_phase_descriptions[2]
+
+        elif target_date_local in (next_last_quarter, previous_last_quarter):
             self._phase_description = MoonClass.moon_phase_descriptions[6]
-            # self._img = Image.open(r"./assets/last_quarter.png")
-
-        elif (self._moon_phase <= 1.0):
+        elif previous_new < next_first_quarter < next_full < next_last_quarter < next_new:
+            self._phase_description = MoonClass.moon_phase_descriptions[1]
+        elif previous_first_quarter < next_full < next_last_quarter < next_new < next_first_quarter:
+            self._phase_description = MoonClass.moon_phase_descriptions[3]
+        elif previous_full < next_last_quarter < next_new < next_first_quarter < next_full:
+            self._phase_description = MoonClass.moon_phase_descriptions[5]
+        elif previous_last_quarter < next_new < next_first_quarter < next_full < next_last_quarter:
             self._phase_description = MoonClass.moon_phase_descriptions[7]
-            # self._img = Image.open(r"./assets/waning_crescent.png")
-        
 
 # -------------------- GET FORMATTED TIME ---------------------------------#
     def get_formatted_time(self):
@@ -207,72 +212,6 @@ class MoonClass:
             self._formatted_time = self._current_time.strftime(
                 " %-I:%M %p %-m/%-d/%Y"
             )
-
-# # ----------------------- MOON PHASE DESCRIPTION --------------------------#
-#     def get_phase_description(self):
-#         """ Convert moon phase to description
-#         from 0 (the new moon) to 0.5 (the full moon)
-#         and back to 1 (the next new moon)
-
-#         The phase of the moon is returned as a fraction,
-#         0.0 being a New Moon, 0.125 waxing crescent
-#         0.25 being a First Quarter, 0.325 waxing gibbous
-#         0.5 being a Full Moon, .625 waning gibbous
-#         0.75 being a Last Quarter, 0.825 waning cresent
-#         and 1.0 being a New Moon again.
-#         """
-
-#         # Get the current date in UTC
-#         target_date_utc = self.observer.date
-
-#         # Calculate dates for various moon phases
-#         target_date_local = target_date_utc
-
-#         # Calculate dates for next full moon, new moon, etc.
-#         next_full = ephem.localtime(
-#             ephem.next_full_moon(target_date_utc)).date()
-#         next_new = ephem.localtime(ephem.next_new_moon(target_date_utc)).date()
-#         next_last_quarter = ephem.localtime(
-#             ephem.next_last_quarter_moon(target_date_utc)).date()
-#         next_first_quarter = ephem.localtime(
-#             ephem.next_first_quarter_moon(target_date_utc)).date()
-#         previous_full = ephem.localtime(
-#             ephem.previous_full_moon(target_date_utc)).date()
-#         previous_new = ephem.localtime(
-#             ephem.previous_new_moon(target_date_utc)).date()
-#         previous_last_quarter = ephem.localtime(
-#             ephem.previous_last_quarter_moon(target_date_utc)).date()
-#         previous_first_quarter = ephem.localtime(
-#             ephem.previous_first_quarter_moon(target_date_utc)).date()
-
-#         # Determine the moon phase based on dates
-#         if target_date_local in (
-#             next_full, previous_full
-#         ):
-#             self._phase_description = MoonClass.moon_phase_descriptions[4]
-
-#         elif target_date_local in (
-#             next_new, previous_new
-#         ):
-#             self._phase_description = MoonClass.moon_phase_descriptions[0]
-
-#         elif target_date_local in (
-#             next_first_quarter,
-#             previous_first_quarter
-#         ):
-#             self._phase_description = MoonClass.moon_phase_descriptions[2]
-
-#         elif target_date_local in (next_last_quarter, previous_last_quarter):
-#             self._phase_description = MoonClass.moon_phase_descriptions[6]
-#         elif previous_new < next_first_quarter < next_full < next_last_quarter < next_new:
-#             self._phase_description = MoonClass.moon_phase_descriptions[1]
-#         elif previous_first_quarter < next_full < next_last_quarter < next_new < next_first_quarter:
-#             self._phase_description = MoonClass.moon_phase_descriptions[3]
-#         elif previous_full < next_last_quarter < next_new < next_first_quarter < next_full:
-#             self._phase_description = MoonClass.moon_phase_descriptions[5]
-#         elif previous_last_quarter < next_new < next_first_quarter < next_full < next_last_quarter:
-#             self._phase_description = MoonClass.moon_phase_descriptions[7]
-
 
 # ----------------------- GET CURRENT TIME --------------------------------#
     # def get_current_time(self):

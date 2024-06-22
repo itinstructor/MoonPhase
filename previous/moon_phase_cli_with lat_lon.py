@@ -62,7 +62,7 @@ class MoonPhase:
 
         console.print(
             f" Illumination: [bold green]{
-                self.mc.phase_percent:.1f}%[/bold green]"
+                self.mc.illumination:.1f}%[/bold green]"
         )
         console.print(f" [bold green]{self.mc.phase_description}[/bold green]")
 

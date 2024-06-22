@@ -67,7 +67,7 @@ class MoonPhase:
         try:
             # Retrieve moon phase description and percentage illumination
             phase_description = self.mc.phase_description
-            moon_phase = self.mc.phase_percent
+            moon_phase = self.mc.illumination
 
             # Update the GUI label with moon illumination percentage
             self.lbl_moon_description.config(
