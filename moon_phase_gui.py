@@ -46,7 +46,6 @@ class MoonPhase:
 
         Flow:
         1. Get the selected date from the calendar widget
-           and convert it to the format 'YYYY/MM/DD'.
         2. Try to retrieve the phase description and phase percentage 
            from the mc object (an instance of the MoonClass class).
         3. Update the text of the moon_description_label widget
@@ -62,14 +61,14 @@ class MoonPhase:
         """
         # Change date of observation based on selected date
 
-        # Extract the selected date from the calendar and format as a string
-        current_time = self.cal.selection_get().strftime('%Y/%m/%d')
+        # Get the Python date object from the from the calendar
+        cal_time = self.cal.selection_get()
 
         # Uncomment the line below for debugging purposes
         # print(current_time)
 
         # Set observer location and current time for moon phase calculation
-        self.mc.get_observer(current_time)
+        self.mc.get_observer(cal_time)
 
         # Attempt to retrieve moon phase information
         try:
@@ -140,7 +139,7 @@ class MoonPhase:
         for row in self.cal._calendar:
             # Iterate over each label in the current row
             for lbl in row:
-                # Bind the double-click event to the 
+                # Bind the double-click event to the
                 # display_moon_phase method
                 lbl.bind("<Double-1>", self.display_moon_phase)
 
