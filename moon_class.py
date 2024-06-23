@@ -197,7 +197,7 @@ class MoonClass:
         """
         if os.name == "nt":
             self._formatted_time = dte.strftime(
-                " %#m/%#d/%Y"
+                " %A %B %#d, %Y"
             )
         else:
             self._formatted_time = dte.strftime(
