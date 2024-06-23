@@ -21,7 +21,7 @@ class MoonPhase:
         # Print title for program
         console.print(
             Panel.fit(
-                "     Moon Phase Calculator     ",
+                "        Moon Phase Calculator        ",
                 style="bold green",
                 subtitle="By William Loring")
         )
@@ -33,16 +33,22 @@ class MoonPhase:
         self.mc.get_observer()
 
         # Display moon information
-        console.print(f"[green]{self.mc.formatted_time}[/green]")
-        console.print(f" [bold cyan]Distance from Earth to Moon[/bold cyan]")
+        console.print(f"[cyan]{self.mc.formatted_time}[/cyan]")
+        console.print(f"[cyan] --  Distance from Earth to Moon --[/cyan]")
         console.print(f"    AU: [cyan]{self.mc.earth_to_moon}[/cyan]")
         console.print(f"    KM: [cyan]{self.mc.km_to_moon:,.0f}[/cyan]")
-        console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]")
+        console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]"
+                      )
+        print()
 
         console.print(
-            f" Illumination: [bold green]{self.mc.illumination:.0f}%[/bold green]"
+            f"[green] -----------  Moon Phase ----------[/green]"
         )
-        console.print(f" [bold green]{self.mc.phase_description}[/bold green]")
+
+        console.print(f" [green]{self.mc.phase_description}[/green]")
+        console.print(
+            f" Illumination: [green]{self.mc.illumination:.0f}%[/green]"
+        )
 
         print()
         input(" Enter to exit")

@@ -181,10 +181,7 @@ class MoonClass:
             self._phase_description = MoonClass.moon_phase_descriptions[7]
             # self._img = Image.open(r"./assets/waning_crescent.png")
 
-
 # -------------------- GET FORMATTED TIME ---------------------------------#
-
-
     def get_formatted_time(self, dte):
         """
         Returns current time in a specific format
@@ -200,9 +197,9 @@ class MoonClass:
         """
         if os.name == "nt":
             self._formatted_time = dte.strftime(
-                " %#I:%M %p %#m/%#d/%Y"
+                " %#m/%#d/%Y"
             )
         else:
             self._formatted_time = dte.strftime(
-                " %-I:%M %p %-m/%-d/%Y"
+                " %-m/%-d/%Y"
             )
