@@ -25,7 +25,7 @@ class MoonPhase:
                 style="bold green",
                 subtitle="By William Loring")
         )
-
+        
         # Create moonclass object to access methods and properties
         self.mc = moon_class.MoonClass()
 

@@ -75,6 +75,7 @@ class MoonPhase:
             # Retrieve moon phase description and percentage illumination
             phase_description = self.mc.phase_description
             moon_phase = self.mc.illumination
+            km_to_moon = self.mc.km_to_moon
 
             # Update the GUI label with moon illumination percentage
             self.lbl_moon_description.config(
@@ -86,6 +87,10 @@ class MoonPhase:
                 text=f"{phase_description}"
             )
 
+            # Update the GUI label with the moon phase description
+            self.lbl_km_to_moon.config(
+                text=f"KM to Moon: {km_to_moon:,.0f}"
+            )
         # Handle exceptions and update label
         except Exception as e:
             self.lbl_moon_phase.config(text=f"Error: {e}")
@@ -97,6 +102,7 @@ class MoonPhase:
             self.root,
             text="Choose Date",
             relief=tk.GROOVE)
+
         self._main_frame = tk.LabelFrame(
             self.root,
             text="Calculate Moon Phase",
@@ -113,19 +119,23 @@ class MoonPhase:
             command=self.display_moon_phase
         )
 
-        self.lbl_moon_description = ttk.Label(self._main_frame)
-        self.lbl_moon_phase = ttk.Label(self._main_frame)
         # Fill the frame to the width of the window
         self._entry_frame.pack(fill=tk.X)
         self._main_frame.pack(fill=tk.X)
+
         # Keep the frame size regardless of the widget sizes
         self._entry_frame.pack_propagate(False)
         self._main_frame.pack_propagate(False)
+
+        self.lbl_moon_description = ttk.Label(self._main_frame)
+        self.lbl_moon_phase = ttk.Label(self._main_frame)
+        self.lbl_km_to_moon = ttk.Label(self._main_frame)
 
         self.cal.grid(row=0, column=0)
         self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
         self.lbl_moon_description.grid(row=2, column=0, sticky=tk.W)
         self.lbl_moon_phase.grid(row=3, column=0, sticky=tk.W)
+        self.lbl_km_to_moon.grid(row=4, column=0, sticky=tk.W)
 
         # Set padding between frame and window
         self._entry_frame.pack_configure(padx=10)
