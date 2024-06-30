@@ -95,15 +95,22 @@ class MoonClass:
         # If date is not passed as a parameter, replace with current time
         if dte is None:
             # Get the current local computer date
-            self._current_time = datetime.date.today()
+            # self._current_time = datetime.date.today()
+            self._current_time = datetime.datetime.now()
             dte = self._current_time
             self.get_formatted_time(dte)
+            # Convert dte (date) to ephem format
+            dte = ephem.Date(dte)
         else:
-            # Set current time to date passed in
-            self._current_time = self.get_formatted_time(dte)
+            # Set formatted time to date passed in
+            self.get_formatted_time(dte)
+            # Convert dte (date) to ephem format
+            dte = ephem.Date(dte)
+            # TKCalendar date comes in at 12 am
+            # Set time to 12 noon
+            dte = ephem.Date(dte + 12 * ephem.hour)
 
-        # Convert dte (date) to ephem format
-        dte = ephem.Date(dte)
+        # print(dte)
 
         # Create observer object with location and time of observation
         observer = ephem.Observer()

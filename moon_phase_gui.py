@@ -63,10 +63,9 @@ class MoonPhase:
 
         # Get the Python date object from the from the calendar
         cal_time = self.cal.selection_get()
-
         # Uncomment the line below for debugging purposes
-        # print(current_time)
-
+        # print(cal_time)
+        
         # Set observer location and current time for moon phase calculation
         self.mc.get_observer(cal_time)
 
