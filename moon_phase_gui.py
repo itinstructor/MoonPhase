@@ -77,19 +77,19 @@ class MoonPhase:
             km_to_moon = self.mc.km_to_moon
             miles_to_moon = self.mc.miles_to_moon
 
-            # Update the GUI label with moon illumination percentage
-            self.lbl_moon_description.config(
-                text=f"Illumination: {moon_phase:.0f}%"
-            )
-
             # Update the GUI label with the moon phase description
             self.lbl_moon_phase.config(
                 text=f"{phase_description}"
             )
 
+            # Update the GUI label with moon illumination percentage
+            self.lbl_moon_description.config(
+                text=f"    Illumination: {moon_phase:.0f}%"
+            )
+
             # Update the GUI label with the moon phase description
             self.lbl_km_to_moon.config(
-                text=f"KM to Moon: {km_to_moon:,.0f}"
+                text=f"   KM to Moon: {km_to_moon:,.0f}"
             )
 
             # Update the GUI label with the moon phase description
@@ -133,15 +133,15 @@ class MoonPhase:
         self._entry_frame.pack_propagate(False)
         self._main_frame.pack_propagate(False)
 
-        self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_moon_phase = ttk.Label(self._main_frame)
+        self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_km_to_moon = ttk.Label(self._main_frame)
         self.lbl_miles_to_moon = ttk.Label(self._main_frame)
 
         self.cal.grid(row=0, column=0)
         self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
-        self.lbl_moon_description.grid(row=2, column=0, sticky=tk.W)
-        self.lbl_moon_phase.grid(row=3, column=0, sticky=tk.W)
+        self.lbl_moon_phase.grid(row=2, column=0, sticky=tk.W)
+        self.lbl_moon_description.grid(row=3, column=0, sticky=tk.W)
         self.lbl_km_to_moon.grid(row=4, column=0, sticky=tk.W)
         self.lbl_miles_to_moon.grid(row=5, column=0, sticky=tk.W)
 
