@@ -33,11 +33,28 @@ class MoonPhase:
         # Default location is lat and lng of Scottsbluff, NE
         self.mc = moon_class.MoonClass()
 
+        # Create observer
+        self.mc.get_observer()
+        # Display moon information based on current time when program starts
+        self.display_moon_phase()
+
         # Run the main loop
         self.root.mainloop()
 
+# ----------------------- CREATE WIDGETS ----------------------------------#
+    def get_time(self, *args):
+        # Change date of observation based on selected date
+        # Get the Python date object from the from the calendar
+        cal_time = self.cal.selection_get()
+        # Uncomment the line below for debugging purposes
+        # print(cal_time)
+
+        # Set observer location and current time for moon phase calculation
+        self.mc.get_observer(cal_time)
+        self.display_moon_phase()
+
 # ----------------------- DISPLAY MOON PHASE ------------------------------#
-    def display_moon_phase(self, *args):
+    def display_moon_phase(self):
         """
         Updates moon phase information displayed based on the selected date.
 
@@ -49,7 +66,7 @@ class MoonPhase:
         2. Try to retrieve the phase description and phase percentage 
            from the mc object (an instance of the MoonClass class).
         3. Update the text of the moon_description_label widget
-        with the moon phase percentage.
+           with the moon phase percentage.
         4. Update the text of the moon_phase_label widget with the
            moon phase description.
         5. If an exception occurs, update the text of the moon_phase_label
@@ -59,15 +76,6 @@ class MoonPhase:
         - None. The method updates the text of the moon_description_label
           and moon_phase_label widgets in the GUI.
         """
-        # Change date of observation based on selected date
-
-        # Get the Python date object from the from the calendar
-        cal_time = self.cal.selection_get()
-        # Uncomment the line below for debugging purposes
-        # print(cal_time)
-
-        # Set observer location and current time for moon phase calculation
-        self.mc.get_observer(cal_time)
 
         # Attempt to retrieve moon phase information
         try:
@@ -122,7 +130,7 @@ class MoonPhase:
         )
         self.btn_calculate = ttk.Button(
             self._main_frame, text="Calculate Moon Phase",
-            command=self.display_moon_phase
+            command=self.get_time
         )
 
         # Fill the frame to the width of the window
@@ -159,11 +167,11 @@ class MoonPhase:
             for lbl in row:
                 # Bind the double-click event to the
                 # display_moon_phase method
-                lbl.bind("<Double-1>", self.display_moon_phase)
+                lbl.bind("<Double-1>", self.get_time)
 
         # Either enter key will call the method
-        self.root.bind("<Return>", self.display_moon_phase)
-        self.root.bind("<KP_Enter>", self.display_moon_phase)
+        self.root.bind("<Return>", self.get_time)
+        self.root.bind("<KP_Enter>", self.get_time)
         self.root.bind("<Escape>", self.quit)
 
 # ------------------------- QUIT PROGRAM ----------------------------------#
