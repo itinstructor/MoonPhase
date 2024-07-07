@@ -92,7 +92,7 @@ class MoonClass:
             # Output: description of the moon phase
             print(moon.phase_description)
         """
-        # If date is not passed as a parameter, replace with current time
+        # If date is not passed as a argument, replace with current time
         if dte is None:
             # Get the current local computer date
             # self._current_time = datetime.date.today()
@@ -101,6 +101,7 @@ class MoonClass:
             self.get_formatted_time(dte)
             # Convert dte (date) to ephem format
             dte = ephem.Date(dte)
+        # If a date is passed as an argument
         else:
             # Set formatted time to date passed in
             self.get_formatted_time(dte)
@@ -110,9 +111,7 @@ class MoonClass:
             # Set time to 12 noon
             dte = ephem.Date(dte + 12 * ephem.hour)
 
-        # print(dte)
-
-        # Create observer object with location and time of observation
+        # Create observer object with the time of observation
         observer = ephem.Observer()
         observer.date = dte
 
@@ -126,21 +125,26 @@ class MoonClass:
         moon.compute(observer)
 
         # ----------------- CALCULATE LUNATION --------------------------- #
-        # Find the date of the previous new moon relative to the input date (dte)
+        # Find the date of the previous new moon relative to the input date
         previous_new_moon = ephem.previous_new_moon(dte)
 
         # Tind the date of the next new moon relative to the input date (dte)
         next_new_moon = ephem.next_new_moon(dte)
 
-        # Calculate the lunation which is the fractional position of the moon in its cycle.
-        # It does this by subtracting the date of the previous new moon from the input date (dte)
-        # and then dividing by the difference between the date of the next new moon and the previous new moon.
+        # Calculate the lunation which is the fractional position of the
+        # moon in its cycle. It does this by subtracting the date of the
+        # previous new moon from the input date (dte) and then dividing
+        # by the difference between the date of the next new moon and
+        # the previous new moon.
         lunation = (dte - previous_new_moon) / \
             (next_new_moon - previous_new_moon)
 
-        # This line calculates the moon phase by taking the remainder of lunation divided by 1.
-        # The remainder will be a value between 0 and 1, which represents the fractional part of the lunation cycle that has passed.
-        # 0 represents a new moon, 0.5 represents a full moon, and values in between represent waxing or waning crescent, gibbous, or quarter moons.
+        # This line calculates the moon phase by taking the remainder of
+        # lunation divided by 1. The remainder will be a value between
+        # 0 and 1, which represents the fractional part of the lunation
+        # cycle that has passed. 0 represents a new moon, 0.5 represents
+        # a full moon, and values in between represent waxing or
+        # waning crescent, gibbous, or quarter moons.
         self._moon_phase = lunation % 1
 
         # Distance from earth to the moon

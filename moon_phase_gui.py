@@ -65,7 +65,7 @@ class MoonPhase:
         cal_time = self.cal.selection_get()
         # Uncomment the line below for debugging purposes
         # print(cal_time)
-        
+
         # Set observer location and current time for moon phase calculation
         self.mc.get_observer(cal_time)
 
@@ -75,6 +75,7 @@ class MoonPhase:
             phase_description = self.mc.phase_description
             moon_phase = self.mc.illumination
             km_to_moon = self.mc.km_to_moon
+            miles_to_moon = self.mc.miles_to_moon
 
             # Update the GUI label with moon illumination percentage
             self.lbl_moon_description.config(
@@ -90,6 +91,12 @@ class MoonPhase:
             self.lbl_km_to_moon.config(
                 text=f"KM to Moon: {km_to_moon:,.0f}"
             )
+
+            # Update the GUI label with the moon phase description
+            self.lbl_miles_to_moon.config(
+                text=f"Miles to Moon: {miles_to_moon:,.0f}"
+            )
+
         # Handle exceptions and update label
         except Exception as e:
             self.lbl_moon_phase.config(text=f"Error: {e}")
@@ -129,12 +136,14 @@ class MoonPhase:
         self.lbl_moon_description = ttk.Label(self._main_frame)
         self.lbl_moon_phase = ttk.Label(self._main_frame)
         self.lbl_km_to_moon = ttk.Label(self._main_frame)
+        self.lbl_miles_to_moon = ttk.Label(self._main_frame)
 
         self.cal.grid(row=0, column=0)
         self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
         self.lbl_moon_description.grid(row=2, column=0, sticky=tk.W)
         self.lbl_moon_phase.grid(row=3, column=0, sticky=tk.W)
         self.lbl_km_to_moon.grid(row=4, column=0, sticky=tk.W)
+        self.lbl_miles_to_moon.grid(row=5, column=0, sticky=tk.W)
 
         # Set padding between frame and window
         self._entry_frame.pack_configure(padx=10)
