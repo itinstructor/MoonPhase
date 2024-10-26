@@ -10,6 +10,7 @@ from tkinter import ttk
 # pip install tkcalendar
 from tkcalendar import Calendar
 from base64 import b64decode
+# from PIL import Image, ImageTk
 import moon_class
 from moon_icon import moon_16
 from moon_icon import moon_32
@@ -20,7 +21,7 @@ class MoonPhase:
         # Create the main window
         self.root = tk.Tk()
         self.root.title("Moon Phase")
-        self.root.geometry("+100+100")
+        self.root.geometry("325x400+100+100")
         # self.root.iconbitmap("moon.ico")
 
         small_icon = tk.PhotoImage(data=b64decode(moon_16))
@@ -35,6 +36,7 @@ class MoonPhase:
 
         # Create observer
         self.mc.get_observer()
+
         # Display moon information based on current time when program starts
         self.display_moon_phase()
 
@@ -80,7 +82,7 @@ class MoonPhase:
         # Attempt to retrieve moon phase information
         try:
             # Retrieve moon phase description and percentage illumination
-            phase_description = self.mc.phase_description
+            phase_description = self.mc.phase_description_gui
             moon_phase = self.mc.illumination
             km_to_moon = self.mc.km_to_moon
             miles_to_moon = self.mc.miles_to_moon
@@ -103,6 +105,11 @@ class MoonPhase:
             # Update the GUI label with the moon phase description
             self.lbl_miles_to_moon.config(
                 text=f"Miles to Moon: {miles_to_moon:,.0f}"
+            )
+
+            # Update the GUI label with the moon phase image
+            self.lbl_image.config(
+                image=self.mc.phase_img
             )
 
         # Handle exceptions and update label
@@ -128,6 +135,7 @@ class MoonPhase:
             date_pattern="yyyy/mm/dd",
             firstweekday="sunday"
         )
+
         self.btn_calculate = ttk.Button(
             self._main_frame, text="Calculate Moon Phase",
             command=self.get_time
@@ -141,21 +149,28 @@ class MoonPhase:
         self._entry_frame.pack_propagate(False)
         self._main_frame.pack_propagate(False)
 
+        # Calendar configure column and row to expand
+        self._entry_frame.columnconfigure(0, weight=1)
+        self._entry_frame.rowconfigure(0, weight=1)
+        # Grid calendar
+        self.cal.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+
         self.lbl_moon_phase = ttk.Label(self._main_frame)
-        self.lbl_moon_description = ttk.Label(self._main_frame)
+        self.lbl_moon_description = ttk.Label(self._main_frame, width=35)
         self.lbl_km_to_moon = ttk.Label(self._main_frame)
         self.lbl_miles_to_moon = ttk.Label(self._main_frame)
+        self.lbl_image = ttk.Label(self._main_frame)
 
-        self.cal.grid(row=0, column=0)
-        self.btn_calculate.grid(row=1, column=0, sticky=tk.W)
-        self.lbl_moon_phase.grid(row=2, column=0, sticky=tk.W)
-        self.lbl_moon_description.grid(row=3, column=0, sticky=tk.W)
-        self.lbl_km_to_moon.grid(row=4, column=0, sticky=tk.W)
-        self.lbl_miles_to_moon.grid(row=5, column=0, sticky=tk.W)
+        self.btn_calculate.grid(row=0, column=0, sticky=tk.W)
+        self.lbl_moon_phase.grid(row=1, column=0, sticky=tk.W)
+        self.lbl_moon_description.grid(row=2, column=0, sticky=tk.W)
+        self.lbl_km_to_moon.grid(row=3, column=0, sticky=tk.W)
+        self.lbl_miles_to_moon.grid(row=4, column=0, sticky=tk.W)
+        self.lbl_image.grid(row=2, column=1, rowspan=3, sticky=tk.E)
 
         # Set padding between frame and window
         self._entry_frame.pack_configure(padx=10)
-        self._main_frame.pack_configure(padx=10, pady=(10))
+        self._main_frame.pack_configure(padx=10, pady=10)
         for child in self._entry_frame.winfo_children():
             child.grid_configure(padx=5, pady=3, ipadx=1, ipady=1)
         for child in self._main_frame.winfo_children():
@@ -165,8 +180,7 @@ class MoonPhase:
         for row in self.cal._calendar:
             # Iterate over each label in the current row
             for lbl in row:
-                # Bind the double-click event to the
-                # display_moon_phase method
+                # Bind the double-click event to the get_time method
                 lbl.bind("<Double-1>", self.get_time)
 
         # Either enter key will call the method

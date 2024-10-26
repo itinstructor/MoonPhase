@@ -4,7 +4,7 @@ python -m nuitka ^
     --onefile ^
     --mingw64 ^
     --lto=no ^
-    --windows-disable-console ^
+    --windows-console-mode=disable ^
     --include-package=babel.numbers ^
     --enable-plugin=tk-inter ^
     --windows-icon-from-ico=moon.ico ^

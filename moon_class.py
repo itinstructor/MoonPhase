@@ -9,7 +9,11 @@
 import ephem
 import os
 import datetime
+from base64 import b64decode
+from tkinter import PhotoImage
 from PIL import Image, ImageTk
+from io import BytesIO
+import moon_icon
 
 
 class MoonClass:
@@ -41,8 +45,12 @@ class MoonClass:
         return self._illumination
 
     @property
-    def phase_description(self):
-        return self._phase_description
+    def phase_description_gui(self):
+        return self._phase_description_gui
+
+    @property
+    def phase_img(self):
+        return self._phase_img
 
     @property
     def earth_to_moon(self):
@@ -124,7 +132,7 @@ class MoonClass:
         # Calculate moon information based on observer information
         moon.compute(observer)
 
-        # ----------------- CALCULATE LUNATION --------------------------- #
+    # --------------------- CALCULATE LUNATION --------------------------- #
         # Find the date of the previous new moon relative to the input date
         previous_new_moon = ephem.previous_new_moon(dte)
 
@@ -153,10 +161,10 @@ class MoonClass:
         # Surface illumination of the moon in decimal
         self._illumination = moon.phase
 
-        self.get_phase_description()
+        self.get_phase_description_gui()
 
-# ----------------------- MOON PHASE DESCRIPTION --------------------------#
-    def get_phase_description(self):
+# --------------- MOON PHASE GUI DESCRIPTION AND IMAGE ------------------- #
+    def get_phase_description_gui(self):
         """ Convert moon phase to description
         from 0 (the new moon) to 0.5 (the full moon)
         and back to 1 (the next new moon)
@@ -170,36 +178,51 @@ class MoonClass:
         """
 
         if (self._moon_phase <= 0.0339):
-            self._phase_description = MoonClass.moon_phase_descriptions[0]
-            # self._img = Image.open(r"./assets/new.png")
+            # Moon phase description
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[0]
+            # photo = Image.open(r"./assets/new.png")
+            self._phase_img = PhotoImage(data=b64decode(moon_icon.new))
 
         elif (self._moon_phase <= 0.2161):
-            self._phase_description = MoonClass.moon_phase_descriptions[1]
-            # self._img = Image.open(r"./assets/waxing_crescent.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[1]
+            # photo = Image.open(r"./assets/waxing_crescent.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.waxing_crescent))
 
         elif (self._moon_phase <= 0.2839):
-            self._phase_description = MoonClass.moon_phase_descriptions[2]
-            # self._img = Image.open(r"./assets/first_quarter.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[2]
+            # photo = Image.open(r"./assets/first_quarter.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.first_quarter))
 
         elif (self._moon_phase <= 0.4661):
-            self._phase_description = MoonClass.moon_phase_descriptions[3]
-            # self._img = Image.open(r"./assets/waxing_gibbous.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[3]
+            # photo = Image.open(r"./assets/waxing_gibbous.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.waxing_gibbous))
 
         elif (self._moon_phase <= 0.5339):
-            self._phase_description = MoonClass.moon_phase_descriptions[4]
-            # self._img = Image.open(r"./assets/full.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[4]
+            # photo = Image.open(/assets/full.png")
+            self._phase_img = PhotoImage(data=b64decode(moon_icon.full))
 
         elif (self._moon_phase <= 0.7161):
-            self._phase_description = MoonClass.moon_phase_descriptions[5]
-            # self._img = Image.open(r"./assets/waning_gibbous.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[5]
+            # photo = Image.open(r"./assets/waning_gibbous.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.waning_gibbous))
 
         elif (self._moon_phase <= 0.7839):
-            self._phase_description = MoonClass.moon_phase_descriptions[6]
-            # self._img = Image.open(r"./assets/last_quarter.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[6]
+            # photo = Image.open(r"./assets/last_quarter.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.last_quarter))
 
         elif (self._moon_phase <= 1.0):
-            self._phase_description = MoonClass.moon_phase_descriptions[7]
-            # self._img = Image.open(r"./assets/waning_crescent.png")
+            self._phase_description_gui = MoonClass.moon_phase_descriptions[7]
+            # photo = Image.open(r"./assets/waning_crescent.png")
+            self._phase_img = PhotoImage(
+                data=b64decode(moon_icon.waning_crescent))
 
 # -------------------- GET FORMATTED TIME ---------------------------------#
     def get_formatted_time(self, dte):
