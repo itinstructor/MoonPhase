@@ -82,7 +82,7 @@ class MoonPhase:
         # Attempt to retrieve moon phase information
         try:
             # Retrieve moon phase description and percentage illumination
-            phase_description = self.mc.phase_description_gui
+            phase_description = self.mc.phase_description
             moon_phase = self.mc.illumination
             km_to_moon = self.mc.km_to_moon
             miles_to_moon = self.mc.miles_to_moon

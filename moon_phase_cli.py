@@ -25,22 +25,23 @@ class MoonPhase:
                 style="bold green",
                 subtitle="By William Loring")
         )
-        
+
         # Create moonclass object to access methods and properties
-        self.mc = moon_class.MoonClass()
+        self.mc = moon_class.MoonClass(False)
 
         # Create observer
         self.mc.get_observer()
 
         # Display moon information
         console.print(f"[green]{self.mc.formatted_time}[/green]")
-        print()
-        console.print(f"[green] -----  Distance from Earth to Moon -----[/green]")
+        # print()
+        console.print(
+            f"[green] -----  Distance from Earth to Moon -----[/green]")
         console.print(f"    AU: [cyan]{self.mc.earth_to_moon}[/cyan]")
         console.print(f"    KM: [cyan]{self.mc.km_to_moon:,.0f}[/cyan]")
         console.print(f" Miles: [cyan]{self.mc.miles_to_moon:,.0f}[/cyan]"
                       )
-        print()
+        # print()
 
         console.print(
             f"[green] --------------  Moon Phase -------------[/green]"
@@ -50,6 +51,7 @@ class MoonPhase:
         console.print(
             f" Illumination: [cyan]{self.mc.illumination:.0f}%[/cyan]"
         )
+        console.print(f"   [cyan]{self.mc.phase_ascii}[/cyan]")
 
         print()
         input(" Enter to exit")
